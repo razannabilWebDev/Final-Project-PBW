@@ -6,6 +6,6 @@
     <title>Laporan User</title>
 </head>
 <body>
-    
+    Halo ini adalah halaman laporan user
 </body>
 </html>
