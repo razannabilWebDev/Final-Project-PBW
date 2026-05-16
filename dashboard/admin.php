@@ -1,7 +1,8 @@
 <?php 
 session_start();
-require_once '../config/auth.php';
-cek_login();
+require '../config/koneksi.php';
+require '../config/session.php';
+cek_login_admin();
 
 // Set current page untuk sidebar
 $current_page = 'dashboard';
@@ -17,7 +18,7 @@ $page_title = 'Dashboard Admin';
         <div class="row align-items-center">
             <div class="col">
                 <h1><i class="fas fa-tachometer-alt text-primary me-2"></i>Dashboard</h1>
-                <p>Selamat datang, <?php echo $_SESSION['nama']; ?>!</p>
+                <p>Selamat datang, <?php echo $_SESSION['username']; ?>!</p>
             </div>
         </div>
     </div>
