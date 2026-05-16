@@ -1,4 +1,9 @@
 <!-- Navbar -->
+<?php 
+$username = strtoupper($_SESSION['username']);
+$role = strtoupper($_SESSION['role']);
+
+?>
 <nav class="navbar navbar-expand-lg custom-navbar">
 
     <div class="container-fluid">
@@ -33,11 +38,11 @@
 
                     <div class="user-info text-start d-none d-md-block">
                         <h6 class="mb-0">
-                            <?php echo $_SESSION['nama']; ?>
+                            <?php echo $username; ?>
                         </h6>
 
                         <small>
-                            <?php echo ucfirst($_SESSION['role']); ?>
+                            <?php echo $role; ?>
                         </small>
                     </div>
                 </button>

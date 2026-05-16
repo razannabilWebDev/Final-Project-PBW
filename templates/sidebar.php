@@ -59,7 +59,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </li>
 
             <li>
-                <a href="../laporan/index.php">
+                <a href="../laporan/laporan.php">
                     <i class="fas fa-chart-line"></i>
                     <span>Laporan</span>
                 </a>

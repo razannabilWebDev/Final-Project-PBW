@@ -1,14 +1,47 @@
 <?php
 session_start();
+require '../config/koneksi.php';
+require '../config/session.php';
 
-// simulasi login
-$_SESSION['nama'] = 'Kasir Warung';
-$_SESSION['role'] = 'kasir';
+cek_login_kasir();
 
-// if($_SESSION['role'] != 'kasir') {
-//     header('Location: ../login.php');
-//     exit;
-// }
+$total_pelanggan = mysqli_num_rows(
+    mysqli_query($conn,"SELECT * FROM pelanggan")
+);
+
+function Transaksi_harian($conn) {
+    $query = "
+        SELECT COUNT(*) as total
+        FROM transaksi
+        WHERE tanggal = CURDATE()
+    ";
+    $result = mysqli_query($conn, $query);
+    $data = mysqli_fetch_assoc($result);
+    return $data['total'];
+}
+
+
+
+function pendapatan_harian($conn) {
+    $query = "
+        SELECT SUM(detail_transaksi.subtotal) as total
+        FROM detail_transaksi
+        JOIN transaksi
+        ON detail_transaksi.id_transaksi = transaksi.id_transaksi
+        WHERE transaksi.tanggal = CURDATE()
+    ";
+    $result = mysqli_query($conn, $query);
+    $data = mysqli_fetch_assoc($result);
+    return $data['total'];
+}
+
+$query_transaksi_terbaru = mysqli_query($conn, "
+    SELECT *
+    FROM transaksi
+    ORDER BY id_transaksi DESC
+    LIMIT 5
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +81,7 @@ $_SESSION['role'] = 'kasir';
                     <div class="stats-top">
                         <div>
                             <p>Transaksi Hari Ini</p>
-                            <h3>125</h3>
+                            <h3><?php echo Transaksi_harian($conn); ?></h3>
                         </div>
 
                         <div class="stats-icon">
@@ -61,7 +94,7 @@ $_SESSION['role'] = 'kasir';
                     <div class="stats-top">
                         <div>
                             <p>Pelanggan</p>
-                            <h3>320</h3>
+                            <h3><?php echo $total_pelanggan; ?></h3>
                         </div>
 
                         <div class="stats-icon">
@@ -74,7 +107,7 @@ $_SESSION['role'] = 'kasir';
                     <div class="stats-top">
                         <div>
                             <p>Pendapatan Hari Ini</p>
-                            <h3>Rp 2.5JT</h3>
+                            <h3>Rp <?php echo number_format(pendapatan_harian($conn), 0, ',', '.'); ?></h3>
                         </div>
 
                         <div class="stats-icon">
@@ -108,42 +141,31 @@ $_SESSION['role'] = 'kasir';
                     <table class="table align-middle">
                         <thead>
                             <tr>
-                                <th>No Transaksi</th>
+                                <th>Id Transaksi</th>
                                 <th>Pelanggan</th>
                                 <th>Total</th>
-                                <th>Status</th>
+                                <th>Tanggal</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>TRX001</td>
-                                <td>Budi</td>
-                                <td>Rp 120.000</td>
-                                <td><span class="badge bg-success">Selesai</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>TRX002</td>
-                                <td>Siti</td>
-                                <td>Rp 85.000</td>
-                                <td><span class="badge bg-success">Selesai</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>TRX003</td>
-                                <td>Andi</td>
-                                <td>Rp 45.000</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                            </tr>
-                        </tbody>
+                                <?php while($transaksi = mysqli_fetch_assoc($query_transaksi_terbaru)) : ?>
+                                <tr>
+                                    <td><?= $transaksi['id_transaksi']; ?></td>
+                                    <td><?= $transaksi['id_pelanggan']; ?></td>
+                                    <td>Rp <?= number_format($transaksi['total_harga'], 0, ',', '.'); ?></td>
+                                    <td>
+                                        <?= date('d M Y', strtotime($transaksi['tanggal'])) ?>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
                     </table>
                 </div>
 
             </div>
 
         </div>
-
         <?php include '../templates/footer.php'; ?>
 
     </div>
