@@ -143,7 +143,7 @@ if (isset($_POST['masuk'])) {
                             </label>
                         </div>
 
-                        <a href="#" class="forgot-password">
+                        <a href="forgot_password.php" class="forgot-password">
                             Lupa password?
                         </a>
                     </div>
