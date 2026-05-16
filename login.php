@@ -12,16 +12,15 @@ if (isset($_POST['masuk'])) {
     mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);    
-    
+
     if (mysqli_num_rows($result) === 1) {
         $user = mysqli_fetch_assoc($result);
 
-        // if (password_verify($password, $user['password'])) {
-        if ($password === $user['password']) {
+        if (password_verify($password, $user['password'])) {
+        // if ($password === $user['password']) {
             $_SESSION['login'] = true;
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
-
             if ($user['role'] === 'admin') {
                 header("Location: dashboard/admin.php");
                 exit;
