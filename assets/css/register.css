@@ -1,0 +1,271 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background:
+                linear-gradient(rgba(16, 32, 29, 0.9), rgba(16, 32, 29, 0.94)),
+                url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .left-side {
+            padding: 70px 60px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+        }
+
+        .left-side::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #556d4f;
+            z-index: -1;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .brand-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #556D4F, #2E4332);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .brand h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .brand p {
+            margin: 0;
+            color: #d4d0c8;
+        }
+
+        .left-side h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .left-side .description {
+            color: #d9d6cf;
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 480px;
+        }
+
+        .benefits {
+            margin-top: 40px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .benefit-item i {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .right-side {
+            padding: 60px 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .register-title {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .register-subtitle {
+            color: #C1BCB4;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            color: #e8e4dc;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .form-control,
+        .form-select {
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-control::placeholder {
+            color: #beb9b2;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: #556D4F;
+            box-shadow: 0 0 0 0.25rem rgba(85,109,79,0.25);
+            color: white;
+        }
+
+        .form-select option {
+            color: black;
+        }
+
+        .input-group-text {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #C1BCB4;
+            border-radius: 0 16px 16px 0;
+            cursor: pointer;
+        }
+
+        .btn-register {
+            height: 58px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #556D4F, #2E4332);
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #637d5d, #38503d);
+            color: white;
+        }
+
+        .login-link {
+            margin-top: 25px;
+            text-align: center;
+            color: #d4d0c8;
+        }
+
+        .login-link a {
+            color: #C1BCB4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            color: white;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            top: 40px;
+            right: 70px;
+        }
+
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            bottom: 70px;
+            left: 60px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @media (max-width: 992px) {
+            .register-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .left-side {
+                display: none;
+            }
+
+            .right-side {
+                padding: 45px 25px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 15px;
+            }
+
+            .right-side {
+                padding: 35px 18px;
+            }
+
+            .register-title {
+                font-size: 1.8rem;
+            }
+        }
