@@ -1,41 +1,76 @@
-<!-- Header/Navbar -->
-<header class="header">
-    <nav class="navbar navbar-expand-lg navbar-dark container-fluid px-4">
-        <div class="container-fluid">
-            <a class="navbar-brand logo d-flex align-items-center" href="dashboard/admin.php">
-                <i class="fas fa-store me-2"></i>
-                Warung Kelontong
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg custom-navbar">
+
+    <div class="container-fluid">
+
+        <button class="mobile-toggle d-lg-none" id="mobileToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div>
+            <h4 class="page-title mb-0">
+                Dashboard Warung
+            </h4>
+
+            <small class="page-subtitle">
+                Selamat datang di sistem informasi warung kelontong
+            </small>
+        </div>
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            <button class="notification-btn position-relative">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
             </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard/<?php echo $_SESSION['role']; ?>.php">
-                            <i class="fas fa-tachometer-alt me-1"></i>
-                            Dashboard
+
+            <div class="dropdown">
+
+                <button class="user-profile dropdown-toggle" data-bs-toggle="dropdown">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+
+                    <div class="user-info text-start d-none d-md-block">
+                        <h6 class="mb-0">
+                            <?php echo $_SESSION['nama']; ?>
+                        </h6>
+
+                        <small>
+                            <?php echo ucfirst($_SESSION['role']); ?>
+                        </small>
+                    </div>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end custom-dropdown">
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-user-circle me-2"></i>
+                            Profile
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i>
-                            <?php echo $_SESSION['nama'] ?? 'User'; ?>
+
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-gear me-2"></i>
+                            Pengaturan
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="user/edit.php?id=<?php echo $_SESSION['id']; ?>">
-                                <i class="fas fa-user-edit me-2"></i>Profil
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="logout.php">
-                                <i class="fas fa-sign-out-alt me-2"></i>Logout
-                            </a></li>
-                        </ul>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a class="dropdown-item text-danger" href="../logout.php">
+                            <i class="fas fa-right-from-bracket me-2"></i>
+                            Logout
+                        </a>
                     </li>
                 </ul>
+
             </div>
+
         </div>
-    </nav>
-</header>
+
+    </div>
+
+</nav>

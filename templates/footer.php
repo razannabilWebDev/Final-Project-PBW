@@ -1,10 +1,26 @@
-        </div> <!-- main-content -->
-    </div> <!-- wrapper -->
+<!-- Footer -->
+<footer class="custom-footer mt-auto">
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="assets/js/script.js"></script>
-    <?php if(isset($extra_js)) echo $extra_js; ?>
-</body>
-</html>
+    <div class="container-fluid">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                <p class="footer-text mb-0">
+                    © <?php echo date('Y'); ?> WK Store - Sistem Informasi Warung Kelontong
+                </p>
+            </div>
+
+            <div class="col-md-6 text-center text-md-end">
+                <div class="footer-links">
+                    <a href="#">Tentang</a>
+                    <a href="#">Bantuan</a>
+                    <a href="#">Kontak</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
