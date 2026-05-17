@@ -19,6 +19,7 @@ if (isset($_POST['masuk'])) {
         if (password_verify($password, $user['password'])) {
         // if ($password === $user['password']) {
             $_SESSION['login'] = true;
+            $_SESSION['id_user'] = $user['id_user'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             if ($user['role'] === 'admin') {
