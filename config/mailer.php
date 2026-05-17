@@ -18,18 +18,18 @@ function kirimOTP($emailTujuan, $otp){
         $mail->SMTPAuth = true;
 
         // EMAIL GMAIL
-        $mail->Username = 'razannabilannadif@gmail.com';
+        $mail->Username = 'groceria.shop@gmail.com';
 
         // APP PASSWORD GMAIL
-        $mail->Password = 'zrbo qalb koxh hrkq';
+        $mail->Password = 'bycp wvdw zwza xarp';
 
         $mail->SMTPSecure = 'tls';
 
         $mail->Port = 587;
 
         $mail->setFrom(
-            'razannabilannadif@gmail.com',
-            'Warung Kelontong'
+            'groceria.shop@gmail.com',
+            'Groceria.shop'
         );
 
         $mail->addAddress($emailTujuan);
