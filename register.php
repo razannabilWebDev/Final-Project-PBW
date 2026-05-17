@@ -3,11 +3,18 @@ require 'config/koneksi.php';
 require 'config/session.php';
 
 if (isset($_POST['register'])) {
+    $email    = mysqli_real_escape_string($conn, $_POST['email']);
     $username     = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $role   = mysqli_real_escape_string($conn, $_POST['role']);
 
-   
+    // Check if email already exists
+    $email_check_query = "SELECT * FROM user WHERE email='$email'";
+    $email_check_result = mysqli_query($conn, $email_check_query);
+
+    if (mysqli_num_rows($email_check_result) > 0) {
+        $error = "Gagal! Email sudah terdaftar.";
+    } else {
     $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
     $cek_query = "SELECT * FROM user WHERE username='$username'";
@@ -66,7 +73,7 @@ if (isset($_POST['register'])) {
             </div>
 
             <div>
-                <h1>WK Store</h1>
+                <h1>Groceria</h1>
                 <p>Sistem Informasi Warung Kelontong</p>
             </div>
         </div>
@@ -108,6 +115,10 @@ if (isset($_POST['register'])) {
             </p>
 
             <form action="" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" placeholder="Masukkan email" required>
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Username</label>
