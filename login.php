@@ -7,9 +7,9 @@ if (isset($_POST['masuk'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    $query = "SELECT * FROM user WHERE username= ?";
+    $query = "SELECT * FROM user WHERE username= ? OR email = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_bind_param($stmt, "ss", $username, $username);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);    
 
@@ -74,7 +74,7 @@ if (isset($_POST['masuk'])) {
                 </div>
 
                 <div>
-                    <h1>WK Store</h1>
+                    <h1>Groceria</h1>
                     <p>Sistem Informasi Warung Kelontong</p>
                 </div>
             </div>
@@ -118,8 +118,8 @@ if (isset($_POST['masuk'])) {
                 <form action="" method="POST">
 
                     <div class="mb-4">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-control" name="username" placeholder="Masukkan username" required>
+                        <label class="form-label">Username/Email</label>
+                        <input type="text" class="form-control" name="username" placeholder="Masukkan username/email" required>
                     </div>
 
                     <div class="mb-3">
@@ -181,6 +181,5 @@ if (isset($_POST['masuk'])) {
             }
         }
     </script>
-
 </body>
 </html>

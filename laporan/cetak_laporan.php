@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../config/koneksi.php';
 require '../config/session.php';
 cek_login_admin();
@@ -17,17 +18,22 @@ $query = mysqli_query($conn, "
         transaksi.id_transaksi,
         transaksi.tanggal,
         pelanggan.nama_pelanggan,
-        transaksi.total_harga
+        SUM(detail_transaksi.subtotal) as total_harga
     FROM transaksi
     JOIN pelanggan
     ON transaksi.id_pelanggan = pelanggan.id_pelanggan
+    JOIN detail_transaksi
+    ON transaksi.id_transaksi = detail_transaksi.id_transaksi
     $where
+    GROUP BY transaksi.id_transaksi
     ORDER BY transaksi.id_transaksi DESC
 ");
 
 $total_query = mysqli_query($conn, "
-    SELECT SUM(total_harga) as total
-    FROM transaksi
+    SELECT SUM(subtotal) as total
+    FROM detail_transaksi
+    JOIN transaksi
+    ON detail_transaksi.id_transaksi = transaksi.id_transaksi
     $where
 ");
 

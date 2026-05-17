@@ -12,10 +12,10 @@ if(!isset($_SESSION['otp_verified'])){
 $email = $_SESSION['reset_email'];
 
 $password = $_POST['password'];
-
+$password_hashed = password_hash($password, PASSWORD_DEFAULT);
 mysqli_query($conn,"
     UPDATE user
-    SET password='$password'
+    SET password='$password_hashed'
     WHERE email='$email'
 ");
 

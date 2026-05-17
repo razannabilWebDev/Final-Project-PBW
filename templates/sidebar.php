@@ -12,7 +12,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
 
             <div class="brand-text">
-                <h5>WK Store</h5>
+                <h5>Groceria</h5>
                 <span>Management System</span>
             </div>
         </a>
