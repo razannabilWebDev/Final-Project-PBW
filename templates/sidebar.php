@@ -12,7 +12,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
 
             <div class="brand-text">
-                <h5>WK Store</h5>
+                <h5>Groceria</h5>
                 <span>Management System</span>
             </div>
         </a>
@@ -59,7 +59,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </li>
 
             <li>
-                <a href="../laporan/index.php">
+                <a href="../laporan/laporan.php">
                     <i class="fas fa-chart-line"></i>
                     <span>Laporan</span>
                 </a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2026 at 01:58 PM
+-- Generation Time: May 17, 2026 at 01:43 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -181,6 +181,7 @@ INSERT INTO `transaksi` (`id_transaksi`, `tanggal`, `id_pelanggan`, `total_harga
 
 CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   `role` enum('admin','kasir') DEFAULT NULL
@@ -190,17 +191,19 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `username`, `password`, `role`) VALUES
-(1, 'admin1', 'admin123', 'admin'),
-(2, 'admin2', 'admin123', 'admin'),
-(3, 'kasir1', 'kasir123', 'kasir'),
-(4, 'kasir2', 'kasir123', 'kasir'),
-(5, 'kasir3', 'kasir123', 'kasir'),
-(6, 'kasir4', 'kasir123', 'kasir'),
-(7, 'kasir5', 'kasir123', 'kasir'),
-(8, 'kasir6', 'kasir123', 'kasir'),
-(9, 'staff1', 'staff123', 'kasir'),
-(10, 'staff2', 'staff123', 'kasir');
+INSERT INTO `user` (`id_user`, `email`, `username`, `password`, `role`) VALUES
+(1, '', 'admin1', 'admin123', 'admin'),
+(2, '', 'admin2', 'admin123', 'admin'),
+(3, '', 'kasir1', 'kasir123', 'kasir'),
+(4, '', 'kasir2', 'kasir123', 'kasir'),
+(5, '', 'kasir3', 'kasir123', 'kasir'),
+(6, '', 'kasir4', 'kasir123', 'kasir'),
+(7, '', 'kasir5', 'kasir123', 'kasir'),
+(8, '', 'kasir6', 'kasir123', 'kasir'),
+(9, '', 'staff1', 'staff123', 'kasir'),
+(10, '', 'staff2', 'staff123', 'kasir'),
+(11, 'razannabilannadif@gmail.com', 'razan', 'razan123', 'admin'),
+(12, '', 'nabil', '$2y$10$ch/oIMi5ilK7n5RuuV72qO5zgh8rHix6AHLkFbAKqRecMppUlZp.m', 'kasir');
 
 --
 -- Indexes for dumped tables
@@ -284,7 +287,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
