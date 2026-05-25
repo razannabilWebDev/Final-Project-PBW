@@ -1,6 +1,9 @@
 <?php 
+session_start();
 require 'config/koneksi.php';
 require 'config/session.php';
+
+cek_login_admin();
 
 if (isset($_POST['register'])) {
     $email    = mysqli_real_escape_string($conn, $_POST['email']);
@@ -36,7 +39,8 @@ if (isset($_POST['register'])) {
             $error = "Error: " . mysqli_error($conn);
         }
     }
-}
+    }
+}   
 
 ?>
 <!DOCTYPE html>
