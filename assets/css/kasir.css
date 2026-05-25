@@ -285,13 +285,11 @@
         }
 
         /* footer */
-         .custom-footer {
+        .custom-footer {
             background: white;
             padding: 20px 30px;
             border-top: 1px solid #e9ecef;
-            bottom: 0;
-            width: 100%;
-            position: fixed;
+       
         }
 
         .footer-text {
