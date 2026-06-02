@@ -194,13 +194,13 @@ warung-kelontong/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/groceria.git
+git clone https://github.com/razannabilWebDev/Final-Project-PBW
 ```
 
 ### 2. Masuk ke Folder Project
 
 ```bash
-cd groceria
+cd FINAL-PROJECT-PBW
 ```
 
 ### 3. Install Dependency
