@@ -55,7 +55,7 @@ function pendapatan_harian($conn, $id_user){
     $query = mysqli_query($conn,"
         SELECT SUM(detail_transaksi.subtotal) AS total
         FROM detail_transaksi
-        JOIN transaksi
+        LEFT JOIN transaksi
         ON detail_transaksi.id_transaksi = transaksi.id_transaksi
         WHERE DATE(transaksi.tanggal) = CURDATE()
         AND transaksi.id_user = '$id_user'

@@ -162,9 +162,9 @@ $query_aktivitas = mysqli_query($conn,"
         pelanggan.nama_pelanggan,
         user.username
     FROM transaksi
-    JOIN pelanggan
+    LEFT JOIN pelanggan
     ON transaksi.id_pelanggan = pelanggan.id_pelanggan
-    JOIN user
+    LEFT JOIN user
     ON transaksi.id_user = user.id_user
     ORDER BY transaksi.id_transaksi DESC
     LIMIT 5
