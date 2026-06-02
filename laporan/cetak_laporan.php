@@ -25,7 +25,7 @@ $query = mysqli_query($conn, "
         transaksi.bayar,
         transaksi.kembalian
     FROM transaksi
-    JOIN pelanggan
+    LEFT JOIN pelanggan
     ON transaksi.id_pelanggan = pelanggan.id_pelanggan
     $where
     ORDER BY transaksi.id_transaksi DESC
