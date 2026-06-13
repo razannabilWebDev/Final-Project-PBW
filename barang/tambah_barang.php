@@ -1,10 +1,5 @@
 <?php
 include 'koneksi.php';
-
-$supplier = mysqli_query(
-    $conn,
-    "SELECT id_supplier, nama_supplier FROM supplier ORDER BY nama_supplier ASC"
-);
 ?>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -39,23 +34,6 @@ $supplier = mysqli_query(
                     <option value="Minuman">Minuman</option>
                     <option value="Sembako">Sembako</option>
                     <option value="Kebutuhan">Kebutuhan</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Supplier</label>
-
-                <select name="id_supplier" class="form-select" required>
-                    <option value="">-- Pilih Supplier --</option>
-
-                    <?php while($s = mysqli_fetch_assoc($supplier)): ?>
-
-                        <option value="<?= $s['id_supplier']; ?>">
-                            <?= htmlspecialchars($s['nama_supplier']); ?>
-                        </option>
-
-                    <?php endwhile; ?>
-
                 </select>
             </div>
 
@@ -99,7 +77,7 @@ $supplier = mysqli_query(
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Jumlah Stok</label>
+                    <label class="form-label">Stok Awal</label>
 
                     <input
                         type="number"

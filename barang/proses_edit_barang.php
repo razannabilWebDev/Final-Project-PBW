@@ -5,7 +5,6 @@ include 'koneksi.php';
 $id_barang     = (int) $_POST['id_barang'];
 $nama_barang   = trim($_POST['nama_barang']);
 $kategori      = trim($_POST['kategori']);
-$id_supplier   = (int) $_POST['id_supplier'];
 $harga_beli    = (int) $_POST['harga_beli'];
 $harga_jual    = (int) $_POST['harga_jual'];
 $satuan        = trim($_POST['satuan']);
@@ -16,7 +15,6 @@ $stmt = $conn->prepare("
     SET
         nama_barang = ?,
         kategori = ?,
-        id_supplier = ?,
         harga_beli = ?,
         harga_jual = ?,
         satuan = ?,
@@ -25,10 +23,9 @@ $stmt = $conn->prepare("
 ");
 
 $stmt->bind_param(
-    "ssiiissi",
+    "ssiissi",
     $nama_barang,
     $kategori,
-    $id_supplier,
     $harga_beli,
     $harga_jual,
     $satuan,
@@ -36,10 +33,19 @@ $stmt->bind_param(
     $id_barang
 );
 
-$stmt->execute();
+if ($stmt->execute()) {
 
-$stmt->close();
-$conn->close();
+    $stmt->close();
+    $conn->close();
 
-header("Location: index.php");
-exit();
+    header("Location: index.php?success=update");
+    exit();
+
+} else {
+
+    echo "Gagal mengupdate data barang: " . $stmt->error;
+
+    $stmt->close();
+    $conn->close();
+}
+?>

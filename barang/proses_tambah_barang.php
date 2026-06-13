@@ -4,7 +4,6 @@ include 'koneksi.php';
 
 $nama_barang   = trim($_POST['nama_barang']);
 $kategori      = trim($_POST['kategori']);
-$id_supplier   = (int) $_POST['id_supplier'];
 $harga_beli    = (int) $_POST['harga_beli'];
 $harga_jual    = (int) $_POST['harga_jual'];
 $satuan        = trim($_POST['satuan']);
@@ -21,7 +20,6 @@ try {
         (
             nama_barang,
             kategori,
-            id_supplier,
             harga_beli,
             harga_jual,
             satuan,
@@ -30,15 +28,14 @@ try {
         )
         VALUES
         (
-            ?, ?, ?, ?, ?, ?, NOW(), ?
+            ?, ?, ?, ?, ?, NOW(), ?
         )
     ");
 
     $stmt1->bind_param(
-        "ssiiiis",
+        "ssiiss",
         $nama_barang,
         $kategori,
-        $id_supplier,
         $harga_beli,
         $harga_jual,
         $satuan,
@@ -88,3 +85,4 @@ $conn->close();
 
 header("Location: index.php");
 exit();
+?>

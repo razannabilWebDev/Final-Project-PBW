@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 13, 2026 at 08:29 AM
+-- Generation Time: Jun 13, 2026 at 09:55 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -31,7 +31,6 @@ CREATE TABLE `barang` (
   `id_barang` int NOT NULL,
   `nama_barang` varchar(100) DEFAULT NULL,
   `kategori` varchar(50) DEFAULT NULL,
-  `id_supplier` int DEFAULT NULL,
   `harga_beli` int DEFAULT NULL,
   `harga_jual` int DEFAULT NULL,
   `satuan` varchar(20) DEFAULT NULL,
@@ -43,18 +42,18 @@ CREATE TABLE `barang` (
 -- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`id_barang`, `nama_barang`, `kategori`, `id_supplier`, `harga_beli`, `harga_jual`, `satuan`, `tanggal_ditambahkan`, `status_barang`) VALUES
-(1, 'Indomie Goreng', 'Makanan', NULL, 2500, 3500, 'pcs', '2026-05-01', 'aktif'),
-(2, 'Beras 5Kg', 'Sembako', NULL, 60000, 70000, 'karung', '2026-05-02', 'aktif'),
-(3, 'Gula Pasir 1Kg', 'Sembako', NULL, 12000, 15000, 'pcs', '2026-05-03', 'aktif'),
-(4, 'Minyak Goreng 1L', 'Sembako', NULL, 15000, 18000, 'botol', '2026-05-04', 'aktif'),
-(5, 'Teh Kotak', 'Minuman', NULL, 3000, 5000, 'pcs', '2026-05-05', 'nonaktif'),
-(6, 'Kopi Sachet', 'Minuman', NULL, 1500, 2500, 'pcs', '2026-05-06', 'aktif'),
-(7, 'Sabun Mandi', 'Kebutuhan', NULL, 4000, 6000, 'pcs', '2026-05-07', 'aktif'),
-(8, 'Shampoo', 'Kebutuhan', NULL, 10000, 13000, 'botol', '2026-05-08', 'aktif'),
-(9, 'Pasta Gigi', 'Kebutuhan', NULL, 7000, 10000, 'pcs', '2026-05-09', 'aktif'),
-(10, 'Susu UHT', 'Minuman', NULL, 5000, 7999, 'kotak', '2026-05-10', 'aktif'),
-(16, 'susu kucing', 'Minuman', NULL, 10000, 15000, 'pcs', '2026-05-25', 'aktif');
+INSERT INTO `barang` (`id_barang`, `nama_barang`, `kategori`, `harga_beli`, `harga_jual`, `satuan`, `tanggal_ditambahkan`, `status_barang`) VALUES
+(1, 'Indomie Goreng', 'Makanan', 2500, 3500, 'pcs', '2026-05-01', 'aktif'),
+(2, 'Beras 5Kg', 'Sembako', 60000, 70000, 'karung', '2026-05-02', 'aktif'),
+(3, 'Gula Pasir 1Kg', 'Sembako', 12000, 15000, 'pcs', '2026-05-03', 'aktif'),
+(4, 'Minyak Goreng 1L', 'Sembako', 15000, 18000, 'botol', '2026-05-04', 'aktif'),
+(5, 'Teh Kotak', 'Minuman', 3000, 5000, 'pcs', '2026-05-05', 'nonaktif'),
+(6, 'Kopi Sachet', 'Minuman', 1500, 2500, 'pcs', '2026-05-06', 'aktif'),
+(7, 'Sabun Mandi', 'Kebutuhan', 4000, 6000, 'pcs', '2026-05-07', 'aktif'),
+(8, 'Shampoo', 'Kebutuhan', 10000, 13000, 'botol', '2026-05-08', 'aktif'),
+(9, 'Pasta Gigi', 'Kebutuhan', 7000, 10000, 'pcs', '2026-05-09', 'aktif'),
+(10, 'Susu UHT', 'Minuman', 5000, 7999, 'kotak', '2026-05-10', 'aktif'),
+(16, 'susu kucing', 'Minuman', 10000, 15000, 'pcs', '2026-05-25', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -90,7 +89,8 @@ INSERT INTO `detail_pembelian` (`id_detail_pembelian`, `id_pembelian`, `id_baran
 (12, 12, 1, 1, 2000, 2000),
 (13, 13, 1, 1, 5000, 5000),
 (14, 14, 1, 1, 5000, 5000),
-(15, 15, 1, 1, 12, 12);
+(15, 15, 1, 1, 12, 12),
+(16, 16, 1, 1, 15000, 15000);
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,8 @@ INSERT INTO `pembelian` (`id_pembelian`, `tanggal`, `id_supplier`, `id_user`, `t
 (12, '2026-05-25 17:30:21', 1, 1, 2000),
 (13, '2026-05-25 17:40:08', 1, 1, 5000),
 (14, '2026-05-25 17:41:42', 1, 1, 5000),
-(15, '2026-05-25 17:41:50', 1, 1, 12);
+(15, '2026-05-25 17:41:50', 1, 1, 12),
+(16, '2026-06-13 16:43:42', 1, 1, 15000);
 
 -- --------------------------------------------------------
 
@@ -207,7 +208,7 @@ CREATE TABLE `stok` (
 --
 
 INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `terakhir_diupdate`) VALUES
-(1, 1, 102, 10, '2026-05-19 19:10:39'),
+(1, 1, 103, 10, '2026-05-19 19:10:39'),
 (2, 2, 50, 5, '2026-05-19 19:10:39'),
 (3, 3, 80, 10, '2026-05-19 19:10:39'),
 (4, 4, 70, 10, '2026-05-19 19:10:39'),
@@ -319,8 +320,7 @@ INSERT INTO `user` (`id_user`, `email`, `username`, `password`, `role`) VALUES
 -- Indexes for table `barang`
 --
 ALTER TABLE `barang`
-  ADD PRIMARY KEY (`id_barang`),
-  ADD KEY `fk_barang_supplier` (`id_supplier`);
+  ADD PRIMARY KEY (`id_barang`);
 
 --
 -- Indexes for table `detail_pembelian`
@@ -393,7 +393,7 @@ ALTER TABLE `barang`
 -- AUTO_INCREMENT for table `detail_pembelian`
 --
 ALTER TABLE `detail_pembelian`
-  MODIFY `id_detail_pembelian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_detail_pembelian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `detail_transaksi`
@@ -411,7 +411,7 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_pembelian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `stok`
@@ -440,12 +440,6 @@ ALTER TABLE `user`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `barang`
---
-ALTER TABLE `barang`
-  ADD CONSTRAINT `fk_barang_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`);
 
 --
 -- Constraints for table `detail_pembelian`

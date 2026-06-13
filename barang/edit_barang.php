@@ -15,13 +15,6 @@ $stmt->execute();
 
 $data = $stmt->get_result()->fetch_assoc();
 
-$supplier = mysqli_query(
-    $conn,
-    "SELECT id_supplier, nama_supplier
-     FROM supplier
-     ORDER BY nama_supplier ASC"
-);
-
 ?>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,156 +24,136 @@ $supplier = mysqli_query(
 <div class="content">
     <div class="card-custom">
 
-        <h2 class="title mb-4">
-            <i class="bi bi-pencil-square"></i>
-            Edit Barang
-        </h2>
+```
+    <h2 class="title mb-4">
+        <i class="bi bi-pencil-square"></i>
+        Edit Barang
+    </h2>
 
-        <form action="proses_edit_barang.php" method="POST">
+    <form action="proses_edit_barang.php" method="POST">
+
+        <input
+            type="hidden"
+            name="id_barang"
+            value="<?= $data['id_barang']; ?>">
+
+        <div class="mb-3">
+            <label class="form-label">Nama Barang</label>
 
             <input
-                type="hidden"
-                name="id_barang"
-                value="<?= $data['id_barang']; ?>">
+                type="text"
+                name="nama_barang"
+                class="form-control"
+                value="<?= htmlspecialchars($data['nama_barang']); ?>"
+                required>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Nama Barang</label>
+        <div class="mb-3">
+            <label class="form-label">Kategori</label>
 
-                <input
-                    type="text"
-                    name="nama_barang"
-                    class="form-control"
-                    value="<?= htmlspecialchars($data['nama_barang']); ?>"
-                    required>
-            </div>
+            <select name="kategori" class="form-select" required>
 
-            <div class="mb-3">
-                <label class="form-label">Kategori</label>
+                <option value="Makanan"
+                    <?= $data['kategori']=='Makanan' ? 'selected' : ''; ?>>
+                    Makanan
+                </option>
 
-                <select name="kategori" class="form-select" required>
+                <option value="Minuman"
+                    <?= $data['kategori']=='Minuman' ? 'selected' : ''; ?>>
+                    Minuman
+                </option>
 
-                    <option value="Makanan"
-                        <?= $data['kategori']=='Makanan' ? 'selected' : ''; ?>>
-                        Makanan
-                    </option>
+                <option value="Sembako"
+                    <?= $data['kategori']=='Sembako' ? 'selected' : ''; ?>>
+                    Sembako
+                </option>
 
-                    <option value="Minuman"
-                        <?= $data['kategori']=='Minuman' ? 'selected' : ''; ?>>
-                        Minuman
-                    </option>
+                <option value="Kebutuhan"
+                    <?= $data['kategori']=='Kebutuhan' ? 'selected' : ''; ?>>
+                    Kebutuhan
+                </option>
 
-                    <option value="Sembako"
-                        <?= $data['kategori']=='Sembako' ? 'selected' : ''; ?>>
-                        Sembako
-                    </option>
+            </select>
+        </div>
 
-                    <option value="Kebutuhan"
-                        <?= $data['kategori']=='Kebutuhan' ? 'selected' : ''; ?>>
-                        Kebutuhan
-                    </option>
+        <div class="mb-3">
+            <label class="form-label">Harga Beli</label>
 
-                </select>
-            </div>
+            <input
+                type="number"
+                name="harga_beli"
+                class="form-control"
+                value="<?= $data['harga_beli']; ?>"
+                required>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Supplier</label>
+        <div class="mb-3">
+            <label class="form-label">Harga Jual</label>
 
-                <select
-                    name="id_supplier"
-                    class="form-select"
-                    required>
+            <input
+                type="number"
+                name="harga_jual"
+                class="form-control"
+                value="<?= $data['harga_jual']; ?>"
+                required>
+        </div>
 
-                    <?php while($s = mysqli_fetch_assoc($supplier)): ?>
+        <div class="mb-3">
+            <label class="form-label">Satuan</label>
 
-                        <option
-                            value="<?= $s['id_supplier']; ?>"
-                            <?= ($s['id_supplier'] == $data['id_supplier']) ? 'selected' : ''; ?>>
+            <input
+                type="text"
+                name="satuan"
+                class="form-control"
+                value="<?= htmlspecialchars($data['satuan']); ?>"
+                required>
+        </div>
 
-                            <?= htmlspecialchars($s['nama_supplier']); ?>
+        <div class="mb-3">
+            <label class="form-label">Status Barang</label>
 
-                        </option>
+            <select name="status_barang" class="form-select">
 
-                    <?php endwhile; ?>
+                <option value="aktif"
+                    <?= $data['status_barang'] == 'aktif' ? 'selected' : ''; ?>>
+                    Aktif
+                </option>
 
-                </select>
-            </div>
+                <option value="nonaktif"
+                    <?= $data['status_barang'] == 'nonaktif' ? 'selected' : ''; ?>>
+                    Nonaktif
+                </option>
 
-            <div class="mb-3">
-                <label class="form-label">Harga Beli</label>
+            </select>
+        </div>
 
-                <input
-                    type="number"
-                    name="harga_beli"
-                    class="form-control"
-                    value="<?= $data['harga_beli']; ?>"
-                    required>
-            </div>
+        <div class="d-flex gap-2">
 
-            <div class="mb-3">
-                <label class="form-label">Harga Jual</label>
+            <button
+                type="submit"
+                class="btn btn-modern">
 
-                <input
-                    type="number"
-                    name="harga_jual"
-                    class="form-control"
-                    value="<?= $data['harga_jual']; ?>"
-                    required>
-            </div>
+                <i class="bi bi-check-circle-fill"></i>
+                Update Barang
 
-            <div class="mb-3">
-                <label class="form-label">Satuan</label>
+            </button>
 
-                <input
-                    type="text"
-                    name="satuan"
-                    class="form-control"
-                    value="<?= htmlspecialchars($data['satuan']); ?>"
-                    required>
-            </div>
+            <a
+                href="index.php"
+                class="btn btn-back">
 
-            <div class="mb-3">
-                <label class="form-label">Status Barang</label>
+                <i class="bi bi-arrow-left"></i>
+                Batal
 
-                <select name="status_barang" class="form-select">
+            </a>
 
-                    <option value="aktif"
-                        <?= $data['status_barang'] == 'aktif' ? 'selected' : ''; ?>>
-                        Aktif
-                    </option>
+        </div>
 
-                    <option value="nonaktif"
-                        <?= $data['status_barang'] == 'nonaktif' ? 'selected' : ''; ?>>
-                        Nonaktif
-                    </option>
+    </form>
 
-                </select>
-            </div>
+</div>
+```
 
-            <div class="d-flex gap-2">
-
-                <button
-                    type="submit"
-                    class="btn btn-modern">
-
-                    <i class="bi bi-check-circle-fill"></i>
-                    Update Barang
-
-                </button>
-
-                <a
-                    href="index.php"
-                    class="btn btn-back">
-
-                    <i class="bi bi-arrow-left"></i>
-                    Batal
-
-                </a>
-
-            </div>
-
-        </form>
-
-    </div>
 </div>
 
 <?php

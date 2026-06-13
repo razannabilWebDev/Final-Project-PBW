@@ -36,16 +36,14 @@ $sql = "
         b.id_barang,
         b.nama_barang,
         b.kategori,
-        s.nama_supplier,
         b.harga_beli,
         b.harga_jual,
         b.satuan,
         b.tanggal_ditambahkan,
         b.status_barang,
-        st.jumlah_stok
+        st.jumlah_stok,
+        st.stok_minimum
     FROM barang b
-    LEFT JOIN supplier s
-        ON b.id_supplier = s.id_supplier
     LEFT JOIN stok st
         ON b.id_barang = st.id_barang
     WHERE b.nama_barang LIKE ?
@@ -118,11 +116,18 @@ $query = $stmt->get_result();
         </h2>
 
         <div class="d-flex gap-2">
-            <a href="tambah_barang.php" class="btn btn-modern">
-                <i class="bi bi-plus-circle-fill"></i>
-                Tambah Barang
-            </a>
-        </div>
+
+    <a href="tambah_barang.php" class="btn btn-modern">
+        <i class="bi bi-plus-circle-fill"></i>
+        Tambah Barang
+    </a>
+
+   <a href="pembelian.php" class="btn btn-modern">
+    <i class="bi bi-cart-plus-fill"></i>
+    Pembelian
+</a>
+
+</div>
 
     </div>
 
@@ -182,10 +187,10 @@ $query = $stmt->get_result();
                     <th>ID</th>
                     <th>Nama Barang</th>
                     <th>Kategori</th>
-                    <th>Supplier</th>
                     <th>Stok</th>
                     <th>Harga Beli</th>
                     <th>Harga Jual</th>
+                    <th>Satuan</th>
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -202,26 +207,20 @@ $query = $stmt->get_result();
 
                         <td><?= $row['id_barang']; ?></td>
 
-                        <td>
-                            <?= htmlspecialchars($row['nama_barang']); ?>
-                        </td>
+                        <td><?= htmlspecialchars($row['nama_barang']); ?></td>
 
-                        <td>
-                            <?= htmlspecialchars($row['kategori']); ?>
-                        </td>
-
-                        <td>
-                            <?= htmlspecialchars($row['nama_supplier'] ?? '-'); ?>
-                        </td>
+                        <td><?= htmlspecialchars($row['kategori']); ?></td>
 
                         <td>
 
                             <?= $row['jumlah_stok'] ?? 0; ?>
 
-                            <?php if(($row['jumlah_stok'] ?? 0) <= 5): ?>
+                            <?php if(($row['jumlah_stok'] ?? 0) <= ($row['stok_minimum'] ?? 5)): ?>
+
                                 <span class="badge bg-warning text-dark ms-2">
                                     Menipis
                                 </span>
+
                             <?php endif; ?>
 
                         </td>
@@ -232,6 +231,10 @@ $query = $stmt->get_result();
 
                         <td>
                             Rp <?= number_format($row['harga_jual'],0,',','.'); ?>
+                        </td>
+
+                        <td>
+                            <?= htmlspecialchars($row['satuan']); ?>
                         </td>
 
                         <td>
@@ -260,21 +263,15 @@ $query = $stmt->get_result();
 
                             <div class="d-flex gap-2">
 
-                                <a
-                                    href="edit_barang.php?id=<?= $row['id_barang']; ?>"
-                                    class="btn btn-warning btn-sm text-white">
-
+                                <a href="edit_barang.php?id=<?= $row['id_barang']; ?>"
+                                   class="btn btn-warning btn-sm text-white">
                                     <i class="bi bi-pencil-square"></i>
-
                                 </a>
 
-                                <a
-                                    href="hapus_barang.php?id=<?= $row['id_barang']; ?>"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Yakin hapus data?')">
-
+                                <a href="hapus_barang.php?id=<?= $row['id_barang']; ?>"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Yakin hapus data?')">
                                     <i class="bi bi-trash-fill"></i>
-
                                 </a>
 
                             </div>
