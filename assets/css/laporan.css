@@ -332,13 +332,13 @@
             justify-content: center;
         }
 
-      .custom-footer {
-             background: white;
+
+        .custom-footer {
+            background: white;
             padding: 20px 30px;
             border-top: 1px solid #e9ecef;
             margin-left: 280px;
-        }  /* FOOTER */
-        
+        }
 
         .footer-text {
             color: #7d8178;

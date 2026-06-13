@@ -6,6 +6,7 @@ $db   = "warung_kelontong";
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 
+<<<<<<< HEAD
 // Cek apakah koneksi berhasil
 if (!$conn) {
     die("Koneksi database gagal: " . mysqli_connect_error());
@@ -32,3 +33,9 @@ function prepared_query($conn, $sql, $types = "", $params = [])
     return $stmt;
 }
 ?>
+=======
+if(!$conn){
+    die("Koneksi gagal");
+}
+?>
+>>>>>>> feature/inventori
