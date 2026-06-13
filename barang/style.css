@@ -155,13 +155,17 @@ body{
 
 /* FORM */
 
-.form-control,
 .form-select{
     background:rgba(255,255,255,0.08);
     border:1px solid rgba(255,255,255,0.12);
-    color:white;
+    color:rgb(255, 255, 255);
     border-radius:14px;
     padding:14px;
+}
+
+.form-select option{
+    color:black;
+    background:white;
 }
 
 .form-control::placeholder{
