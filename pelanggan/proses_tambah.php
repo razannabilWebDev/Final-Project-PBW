@@ -1,0 +1,25 @@
+<?php
+session_start();
+if (!isset($_SESSION['role'])) {
+    header("Location: ../login.php");
+    exit;
+}
+
+if (isset($_POST['simpan'])) {
+    $koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
+
+    $nama = $_POST['nama_pelanggan'];
+    $alamat = $_POST['alamat'];
+    $no_hp = $_POST['no_hp'];
+    $poin = $_POST['poin_member'];
+
+    $query = "INSERT INTO pelanggan (nama_pelanggan, alamat, no_hp, poin_member) VALUES ('$nama', '$alamat', '$no_hp', '$poin')";
+    $hasil = mysqli_query($koneksi, $query);
+
+    if ($hasil) {
+        echo "<script>alert('Data berhasil ditambahkan!'); window.location='index.php';</script>";
+    } else {
+        echo "<script>alert('Gagal menambahkan data.'); window.location='tambah.php';</script>";
+    }
+}
+?>
