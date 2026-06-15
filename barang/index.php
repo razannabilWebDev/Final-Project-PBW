@@ -1,11 +1,7 @@
 <?php
 session_start();
-
-// 1. Proteksi Halaman & Validasi Role sesuai Template
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php"); 
-    exit;
-}
+include '../config/session.php';
+cek_login();
 
 $role_sekarang = $_SESSION['role']; 
 
@@ -246,10 +242,11 @@ $result = $stmt->get_result();
 
                 </div>
             </div> 
-        </div> 
-    </div> 
-    <!-- FOOTER COMPONENT -->
             <?php include '../templates/footer.php'; ?>
+        </div> 
+            
+    </div> 
+
 </body>
 </html>
 

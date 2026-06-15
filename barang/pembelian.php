@@ -114,12 +114,12 @@ $supplier = $conn->query("
 
                         </div>
                     </div> 
-
                 </div>
             </div> 
+            
         </div> 
+        
     </div> 
-
     <script>
         // Menangkap elemen dropdown barang dan input harga beli
         const pilihBarang = document.getElementById('pilih_barang');
@@ -138,6 +138,8 @@ $supplier = $conn->query("
             inputHargaBeli.value = harga ? harga : '';
         });
     </script>
-    <?php include '../templates/footer.php'; ?>
+    <footer style="margin-left: 270px;">
+            <?php include '../templates/footer.php'; ?>
+        </footer>
 </body>
 </html>

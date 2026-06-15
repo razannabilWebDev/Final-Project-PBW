@@ -182,9 +182,11 @@ $data = $result->fetch_assoc();
 
                 </div>
             </div> 
+            <?php include '../templates/footer.php'; ?> 
         </div> 
+        
     </div> 
-    <?php include '../templates/footer.php'; ?>
+    
 </body>
 </html>
 

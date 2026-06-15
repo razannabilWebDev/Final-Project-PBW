@@ -147,10 +147,11 @@ $result = mysqli_query($conn, $query);
                 <div class="container-fluid px-5">
                     
                 </div>
-            
+            <?php include '../templates/footer.php'; ?>
         </div> 
+        
     </div> 
-    <?php include '../templates/footer.php'; ?>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

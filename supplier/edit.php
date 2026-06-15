@@ -218,11 +218,7 @@ if (isset($_POST['update'])) {
 
             </div> 
             
-            <footer class="mt-auto py-3 bg-white">
-                <div class="container-fluid px-5">
                     <?php include '../templates/footer.php'; ?>
-                </div>
-            </footer>
             
         </div> 
     </div> 

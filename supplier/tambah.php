@@ -153,12 +153,8 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
 
-            </div> 
-            <footer class="mt-auto py-3 bg-white">
-                <div class="container-fluid px-5">
+            </div>  
                     <?php include '../templates/footer.php'; ?>
-                </div>
-            </footer>
             
         </div> 
     </div> 
