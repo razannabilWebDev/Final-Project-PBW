@@ -1,24 +1,22 @@
 <?php
 session_start();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login();
 
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php");
-    exit;
-}
 
 $role_sekarang = $_SESSION['role']; 
 
-$koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
 
 if (!isset($_GET['id_pelanggan']) || empty($_GET['id_pelanggan'])) {
     header("Location: index.php");
     exit;
 }
 
-$id_pelanggan = mysqli_real_escape_string($koneksi, $_GET['id_pelanggan']);
+$id_pelanggan = mysqli_real_escape_string($conn, $_GET['id_pelanggan']);
 
 $query = "SELECT * FROM pelanggan WHERE id_pelanggan = '$id_pelanggan'";
-$result = mysqli_query($koneksi, $query);
+$result = mysqli_query($conn, $query);
 $data = mysqli_fetch_assoc($result);
 
 if (!$data) {

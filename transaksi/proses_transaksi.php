@@ -32,7 +32,7 @@ try {
     $query_trans = "INSERT INTO transaksi (id_user, id_pelanggan, total_harga, diskon, poin_didapat, bayar, kembalian) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt_trans = $conn->prepare($query_trans);
-    $stmt_trans->bind_param("iiddidd", $id_user, $id_pelanggan, $total_harga, $diskon, $poin_didapat, $bayar, $kembalian);
+    $stmt_trans->bind_param("iiddidd", $id_user, $id_pelanggan, $total_harga, $diskon, $poin_didapat, $bayar, $kembalian );
     $stmt_trans->execute();
     
     // Ambil ID Transaksi baru

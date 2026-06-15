@@ -1,5 +1,8 @@
 <?php
 session_start();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login();
 
 if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
     header("Location: ../login.php");
@@ -14,7 +17,6 @@ if ($_SESSION['role'] !== 'admin') {
     exit;
 }
 
-include '../config/koneksi.php'; 
 
 if (!isset($_GET['id_supplier'])) {
     header("Location: index.php");

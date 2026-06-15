@@ -1,6 +1,8 @@
 <?php
-
-include 'koneksi.php';
+session_start();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login_admin();
 
 $nama_barang   = trim($_POST['nama_barang']);
 $kategori      = trim($_POST['kategori']);

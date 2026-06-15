@@ -1,12 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php");
-    exit;
-}
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login();
+
 
 if (isset($_POST['simpan'])) {
-    $koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
 
     $id = $_POST['id_pelanggan'];
     $nama = $_POST['nama_pelanggan'];
@@ -15,7 +14,7 @@ if (isset($_POST['simpan'])) {
     $poin = $_POST['poin_member'];
 
     $query = "UPDATE pelanggan SET nama_pelanggan='$nama', alamat='$alamat', no_hp='$no_hp', poin_member='$poin' WHERE id_pelanggan='$id'";
-    $hasil = mysqli_query($koneksi, $query);
+    $hasil = mysqli_query($conn, $query);
 
     if ($hasil) {
         echo "<script>alert('Data berhasil diubah!'); window.location='index.php';</script>";

@@ -1,6 +1,9 @@
 <?php
+session_start();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login_admin();
 
-include 'koneksi.php';
 
 $id_supplier = $_POST['id_supplier'];
 $id_barang   = $_POST['id_barang'];

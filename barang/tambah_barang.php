@@ -1,16 +1,8 @@
 <?php
 session_start();
-
-// 1. Proteksi Halaman & Validasi Role sesuai Template Utama
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php"); 
-    exit;
-}
-
-$role_sekarang = $_SESSION['role']; 
-
-// Mengambil file koneksi bawaan
-include 'koneksi.php';
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login_admin();
 ?>
 
 <!DOCTYPE html>
