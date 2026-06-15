@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 20, 2026 at 03:56 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Host: localhost:3306
+-- Generation Time: Jun 13, 2026 at 09:55 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,15 +28,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `barang` (
-  `id_barang` int(11) NOT NULL,
+  `id_barang` int NOT NULL,
   `nama_barang` varchar(100) DEFAULT NULL,
   `kategori` varchar(50) DEFAULT NULL,
-  `harga_beli` int(11) DEFAULT NULL,
-  `harga_jual` int(11) DEFAULT NULL,
+  `harga_beli` int DEFAULT NULL,
+  `harga_jual` int DEFAULT NULL,
   `satuan` varchar(20) DEFAULT NULL,
   `tanggal_ditambahkan` date DEFAULT NULL,
   `status_barang` enum('aktif','nonaktif') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `barang`
@@ -47,12 +47,13 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `kategori`, `harga_beli`, `har
 (2, 'Beras 5Kg', 'Sembako', 60000, 70000, 'karung', '2026-05-02', 'aktif'),
 (3, 'Gula Pasir 1Kg', 'Sembako', 12000, 15000, 'pcs', '2026-05-03', 'aktif'),
 (4, 'Minyak Goreng 1L', 'Sembako', 15000, 18000, 'botol', '2026-05-04', 'aktif'),
-(5, 'Teh Kotak', 'Minuman', 3000, 5000, 'pcs', '2026-05-05', 'aktif'),
+(5, 'Teh Kotak', 'Minuman', 3000, 5000, 'pcs', '2026-05-05', 'nonaktif'),
 (6, 'Kopi Sachet', 'Minuman', 1500, 2500, 'pcs', '2026-05-06', 'aktif'),
 (7, 'Sabun Mandi', 'Kebutuhan', 4000, 6000, 'pcs', '2026-05-07', 'aktif'),
 (8, 'Shampoo', 'Kebutuhan', 10000, 13000, 'botol', '2026-05-08', 'aktif'),
 (9, 'Pasta Gigi', 'Kebutuhan', 7000, 10000, 'pcs', '2026-05-09', 'aktif'),
-(10, 'Susu UHT', 'Minuman', 5000, 7500, 'kotak', '2026-05-10', 'aktif');
+(10, 'Susu UHT', 'Minuman', 5000, 7999, 'kotak', '2026-05-10', 'aktif'),
+(16, 'susu kucing', 'Minuman', 10000, 15000, 'pcs', '2026-05-25', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -61,13 +62,13 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `kategori`, `harga_beli`, `har
 --
 
 CREATE TABLE `detail_pembelian` (
-  `id_detail_pembelian` int(11) NOT NULL,
-  `id_pembelian` int(11) DEFAULT NULL,
-  `id_barang` int(11) DEFAULT NULL,
-  `jumlah` int(11) DEFAULT NULL,
-  `harga_beli` int(11) DEFAULT NULL,
-  `subtotal` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id_detail_pembelian` int NOT NULL,
+  `id_pembelian` int DEFAULT NULL,
+  `id_barang` int DEFAULT NULL,
+  `jumlah` int DEFAULT NULL,
+  `harga_beli` int DEFAULT NULL,
+  `subtotal` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `detail_pembelian`
@@ -83,7 +84,13 @@ INSERT INTO `detail_pembelian` (`id_detail_pembelian`, `id_pembelian`, `id_baran
 (7, 7, 7, 45, 6000, 270000),
 (8, 8, 8, 15, 13000, 195000),
 (9, 9, 9, 31, 10000, 310000),
-(10, 10, 10, 80, 5000, 400000);
+(10, 10, 10, 80, 5000, 400000),
+(11, 11, 1, 12, 5000, 60000),
+(12, 12, 1, 1, 2000, 2000),
+(13, 13, 1, 1, 5000, 5000),
+(14, 14, 1, 1, 5000, 5000),
+(15, 15, 1, 1, 12, 12),
+(16, 16, 1, 1, 15000, 15000);
 
 -- --------------------------------------------------------
 
@@ -92,13 +99,13 @@ INSERT INTO `detail_pembelian` (`id_detail_pembelian`, `id_pembelian`, `id_baran
 --
 
 CREATE TABLE `detail_transaksi` (
-  `id_detail` int(11) NOT NULL,
-  `id_transaksi` int(11) DEFAULT NULL,
-  `id_barang` int(11) DEFAULT NULL,
-  `jumlah` int(11) DEFAULT NULL,
-  `harga_jual` int(11) DEFAULT NULL,
-  `subtotal` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id_detail` int NOT NULL,
+  `id_transaksi` int DEFAULT NULL,
+  `id_barang` int DEFAULT NULL,
+  `jumlah` int DEFAULT NULL,
+  `harga_jual` int DEFAULT NULL,
+  `subtotal` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `detail_transaksi`
@@ -123,12 +130,12 @@ INSERT INTO `detail_transaksi` (`id_detail`, `id_transaksi`, `id_barang`, `jumla
 --
 
 CREATE TABLE `pelanggan` (
-  `id_pelanggan` int(11) NOT NULL,
+  `id_pelanggan` int NOT NULL,
   `nama_pelanggan` varchar(100) DEFAULT NULL,
-  `alamat` text DEFAULT NULL,
+  `alamat` text,
   `no_hp` varchar(20) DEFAULT NULL,
-  `poin_member` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `poin_member` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `pelanggan`
@@ -153,12 +160,12 @@ INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `alamat`, `no_hp`, `p
 --
 
 CREATE TABLE `pembelian` (
-  `id_pembelian` int(11) NOT NULL,
+  `id_pembelian` int NOT NULL,
   `tanggal` datetime DEFAULT NULL,
-  `id_supplier` int(11) DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `total_pembelian` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id_supplier` int DEFAULT NULL,
+  `id_user` int DEFAULT NULL,
+  `total_pembelian` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `pembelian`
@@ -174,7 +181,13 @@ INSERT INTO `pembelian` (`id_pembelian`, `tanggal`, `id_supplier`, `id_user`, `t
 (7, '2026-05-19 19:10:39', 7, 2, 270000),
 (8, '2026-05-19 19:10:39', 8, 1, 190000),
 (9, '2026-05-19 19:10:39', 9, 2, 310000),
-(10, '2026-05-19 19:10:39', 10, 1, 400000);
+(10, '2026-05-19 19:10:39', 10, 1, 400000),
+(11, '2026-05-25 17:24:46', 1, 1, 60000),
+(12, '2026-05-25 17:30:21', 1, 1, 2000),
+(13, '2026-05-25 17:40:08', 1, 1, 5000),
+(14, '2026-05-25 17:41:42', 1, 1, 5000),
+(15, '2026-05-25 17:41:50', 1, 1, 12),
+(16, '2026-06-13 16:43:42', 1, 1, 15000);
 
 -- --------------------------------------------------------
 
@@ -183,19 +196,19 @@ INSERT INTO `pembelian` (`id_pembelian`, `tanggal`, `id_supplier`, `id_user`, `t
 --
 
 CREATE TABLE `stok` (
-  `id_stok` int(11) NOT NULL,
-  `id_barang` int(11) DEFAULT NULL,
-  `jumlah_stok` int(11) DEFAULT NULL,
-  `stok_minimum` int(11) DEFAULT NULL,
+  `id_stok` int NOT NULL,
+  `id_barang` int DEFAULT NULL,
+  `jumlah_stok` int DEFAULT NULL,
+  `stok_minimum` int DEFAULT NULL,
   `terakhir_diupdate` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stok`
 --
 
 INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `terakhir_diupdate`) VALUES
-(1, 1, 100, 10, '2026-05-19 19:10:39'),
+(1, 1, 103, 10, '2026-05-19 19:10:39'),
 (2, 2, 50, 5, '2026-05-19 19:10:39'),
 (3, 3, 80, 10, '2026-05-19 19:10:39'),
 (4, 4, 70, 10, '2026-05-19 19:10:39'),
@@ -204,7 +217,8 @@ INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `tera
 (7, 7, 60, 10, '2026-05-19 19:10:39'),
 (8, 8, 40, 5, '2026-05-19 19:10:39'),
 (9, 9, 55, 5, '2026-05-19 19:10:39'),
-(10, 10, 75, 10, '2026-05-19 19:10:39');
+(10, 10, 75, 10, '2026-05-19 19:10:39'),
+(11, 16, 9, 5, '2026-05-25 20:51:06');
 
 -- --------------------------------------------------------
 
@@ -213,12 +227,12 @@ INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `tera
 --
 
 CREATE TABLE `supplier` (
-  `id_supplier` int(11) NOT NULL,
+  `id_supplier` int NOT NULL,
   `nama_supplier` varchar(100) DEFAULT NULL,
-  `alamat` text DEFAULT NULL,
+  `alamat` text,
   `no_telepon` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `supplier`
@@ -243,14 +257,14 @@ INSERT INTO `supplier` (`id_supplier`, `nama_supplier`, `alamat`, `no_telepon`, 
 --
 
 CREATE TABLE `transaksi` (
-  `id_transaksi` int(11) NOT NULL,
+  `id_transaksi` int NOT NULL,
   `tanggal` datetime DEFAULT NULL,
-  `id_pelanggan` int(11) DEFAULT NULL,
-  `id_user` int(11) DEFAULT NULL,
-  `total_harga` int(11) DEFAULT NULL,
-  `bayar` int(11) DEFAULT NULL,
-  `kembalian` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id_pelanggan` int DEFAULT NULL,
+  `id_user` int DEFAULT NULL,
+  `total_harga` int DEFAULT NULL,
+  `bayar` int DEFAULT NULL,
+  `kembalian` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `transaksi`
@@ -275,12 +289,12 @@ INSERT INTO `transaksi` (`id_transaksi`, `tanggal`, `id_pelanggan`, `id_user`, `
 --
 
 CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL,
+  `id_user` int NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `role` enum('admin','kasir') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -373,55 +387,55 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `detail_pembelian`
 --
 ALTER TABLE `detail_pembelian`
-  MODIFY `id_detail_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_detail_pembelian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_pelanggan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_pembelian` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_stok` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_supplier` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

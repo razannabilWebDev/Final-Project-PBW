@@ -93,16 +93,17 @@ name="harga_beli"
 class="form-control"
 required>
 
-</div>
+<div class="d-flex justify-content-end gap-2 mt-4">
 
-<button class="btn btn-modern">
+    <a href="index.php" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left-circle"></i>
+        Batal
+    </a>
 
-<i class="bi bi-save-fill"></i>
-Simpan Pembelian
-
-</button>
-
-</form>
+    <button type="submit" class="btn btn-modern">
+        <i class="bi bi-save-fill"></i>
+        Simpan Pembelian
+    </button>
 
 </div>
 

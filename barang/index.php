@@ -299,6 +299,7 @@ $query = $stmt->get_result();
     </div>
 
 </div>
+```
 
 </div>
 

@@ -2,35 +2,50 @@
 
 include 'koneksi.php';
 
+$id_barang     = (int) $_POST['id_barang'];
+$nama_barang   = trim($_POST['nama_barang']);
+$kategori      = trim($_POST['kategori']);
+$harga_beli    = (int) $_POST['harga_beli'];
+$harga_jual    = (int) $_POST['harga_jual'];
+$satuan        = trim($_POST['satuan']);
+$status_barang = trim($_POST['status_barang']);
+
 $stmt = $conn->prepare("
-UPDATE barang SET
-nama_barang = ?,
-kategori = ?,
-harga_beli = ?,
-harga_jual = ?,
-satuan = ?,
-status_barang = ?
-WHERE id_barang = ?
+    UPDATE barang
+    SET
+        nama_barang = ?,
+        kategori = ?,
+        harga_beli = ?,
+        harga_jual = ?,
+        satuan = ?,
+        status_barang = ?
+    WHERE id_barang = ?
 ");
 
 $stmt->bind_param(
     "ssiissi",
-    $_POST['nama_barang'],
-    $_POST['kategori'],
-    $_POST['harga_beli'],
-    $_POST['harga_jual'],
-    $_POST['satuan'],
-    $_POST['status_barang'],
-    $_POST['id_barang']
+    $nama_barang,
+    $kategori,
+    $harga_beli,
+    $harga_jual,
+    $satuan,
+    $status_barang,
+    $id_barang
 );
 
-$stmt->execute();
+if ($stmt->execute()) {
 
-$stmt->close();
-$conn->close();
+    $stmt->close();
+    $conn->close();
 
-// DIUBAH KE index.php
-header("Location: index.php");
-exit();
+    header("Location: index.php?success=update");
+    exit();
 
+} else {
+
+    echo "Gagal mengupdate data barang: " . $stmt->error;
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
