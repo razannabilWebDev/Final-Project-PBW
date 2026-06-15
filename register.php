@@ -1,6 +1,9 @@
 <?php 
+session_start();
 require 'config/koneksi.php';
 require 'config/session.php';
+
+cek_login_admin();
 
 if (isset($_POST['register'])) {
     $email    = mysqli_real_escape_string($conn, $_POST['email']);
@@ -24,11 +27,11 @@ if (isset($_POST['register'])) {
         $error = "Gagal! username sudah terdaftar.";
     } else {
         
-        $query = "INSERT INTO user (username, password, role) 
-                  VALUES (?, ?, ?)";
+        $query = "INSERT INTO user (email, username, password, role) 
+                  VALUES (?, ?, ?, ?)";
         
         $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "sss", $username, $password_hashed, $role);
+        mysqli_stmt_bind_param($stmt, "ssss", $email, $username, $password_hashed, $role);
 
         if (mysqli_stmt_execute($stmt)) {
             $success = "Pengguna berhasil didaftarkan!";
@@ -36,7 +39,8 @@ if (isset($_POST['register'])) {
             $error = "Error: " . mysqli_error($conn);
         }
     }
-}
+    }
+}   
 
 ?>
 <!DOCTYPE html>
