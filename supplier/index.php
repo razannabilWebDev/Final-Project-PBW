@@ -144,14 +144,13 @@ $result = mysqli_query($conn, $query);
 
             </div> 
             
-            <footer class="mt-auto py-3 bg-white">
                 <div class="container-fluid px-5">
-                    <?php include '../templates/footer.php'; ?>
+                    
                 </div>
-            </footer>
             
         </div> 
     </div> 
+    <?php include '../templates/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
