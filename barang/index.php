@@ -80,7 +80,6 @@ $query = $stmt->get_result();
 
 <div class="content">
 
-```
 <div class="row mb-4">
 
     <div class="col-md-6 mb-3">
@@ -299,8 +298,6 @@ $query = $stmt->get_result();
     </div>
 
 </div>
-```
-
 </div>
 
 <?php
