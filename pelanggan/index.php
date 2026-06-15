@@ -119,11 +119,9 @@ $result = mysqli_query($koneksi, $query);
                     </div>
                 </div> 
             </div>
-
-            <footer>
-                <?php include '../templates/footer.php'; ?>
-            </footer>
         </div> 
+        <?php include '../templates/footer.php'; ?>
     </div> 
+    
 </body>
 </html>
