@@ -1,12 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php");
-    exit;
-}
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login();
+
 
 if (isset($_POST['simpan'])) {
-    $koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
 
     $nama = $_POST['nama_pelanggan'];
     $alamat = $_POST['alamat'];
@@ -14,7 +13,7 @@ if (isset($_POST['simpan'])) {
     $poin = $_POST['poin_member'];
 
     $query = "INSERT INTO pelanggan (nama_pelanggan, alamat, no_hp, poin_member) VALUES ('$nama', '$alamat', '$no_hp', '$poin')";
-    $hasil = mysqli_query($koneksi, $query);
+    $hasil = mysqli_query($conn, $query);
 
     if ($hasil) {
         echo "<script>alert('Data berhasil ditambahkan!'); window.location='index.php';</script>";

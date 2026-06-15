@@ -1,25 +1,23 @@
 <?php
 session_start();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login();
 
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php"); 
-    exit;
-}
 
 $role_sekarang = $_SESSION['role']; 
 
-$koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
 
 $search_query = "";
 
 if (isset($_GET['cari']) && !empty($_GET['cari'])) {
-    $cari = mysqli_real_escape_string($koneksi, $_GET['cari']);
+    $cari = mysqli_real_escape_string($conn, $_GET['cari']);
 
     $search_query = " WHERE nama_pelanggan LIKE '%$cari%' OR no_hp LIKE '%$cari%'";
 }
 
 $query = "SELECT * FROM pelanggan" . $search_query;
-$result = mysqli_query($koneksi, $query);
+$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>

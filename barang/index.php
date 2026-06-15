@@ -1,12 +1,13 @@
 <?php
 session_start();
-include '../config/session.php';
-cek_login();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login_admin();
+
 
 $role_sekarang = $_SESSION['role']; 
 
 // Menggunakan berkas koneksi bawaan Data Inventory
-include 'koneksi.php'; 
 
 /* TOTAL BARANG */
 $total_barang = $conn->query("
