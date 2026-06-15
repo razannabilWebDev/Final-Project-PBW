@@ -1,27 +1,26 @@
 <?php
-require '../config/koneksi.php';
+require_once '../config/koneksi.php';
+header('Content-Type: application/json');
 
-$keyword = $_GET['keyword'] ?? '';
+$q = isset($_GET['q']) ? $_GET['q'] : '';
 
-$query = mysqli_query($conn,"
-    SELECT b.id_barang,
-           b.nama_barang,
-           b.harga_jual,
-           s.jumlah_stok
-    FROM barang b
-    JOIN stok s ON b.id_barang = s.id_barang
-    WHERE b.nama_barang LIKE '%$keyword%'
-    AND s.jumlah_stok > 0
-    LIMIT 10
-");
+// Mengambil barang beserta stoknya (Hanya tampilkan yang stoknya > 0 jika ingin dibatasi)
+$query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, s.jumlah_stok 
+          FROM barang b 
+          LEFT JOIN stok s ON b.id_barang = s.id_barang 
+          WHERE b.nama_barang LIKE ? OR b.id_barang LIKE ? LIMIT 5";
 
-while($row = mysqli_fetch_assoc($query)) :
+$stmt = $conn->prepare($query);
+$search = "%$q%";
+$stmt->bind_param("ss", $search, $search);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$data = [];
+while($row = $result->fetch_assoc()) {
+    // Pastikan nilai NULL dari left join jadi 0
+    $row['jumlah_stok'] = $row['jumlah_stok'] ? $row['jumlah_stok'] : 0; 
+    $data[] = $row;
+}
+echo json_encode($data);
 ?>
-
-<option value="<?= $row['id_barang'] ?>">
-    <?= $row['nama_barang'] ?>
-    | Stok: <?= $row['jumlah_stok'] ?>
-    | Rp<?= number_format($row['harga_jual']) ?>
-</option>
-
-<?php endwhile; ?>

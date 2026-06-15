@@ -1,448 +1,364 @@
 <?php
 session_start();
-require '../config/koneksi.php';
+// Pastikan file koneksi ada sesuai struktur foldermu
+require_once '../config/koneksi.php';
 
-if (!isset($_SESSION['keranjang'])) {
-    $_SESSION['keranjang'] = [];
-}
+// Ambil semua data pelanggan untuk diisi ke dropdown
+$query_pelanggan = "SELECT id_pelanggan, nama_pelanggan, no_hp, poin_member FROM pelanggan ORDER BY nama_pelanggan ASC";
+$result_pelanggan = mysqli_query($conn, $query_pelanggan);
 
-$pelanggan = mysqli_query($conn, "
-    SELECT *
-    FROM pelanggan
-    ORDER BY nama_pelanggan ASC
-");
-
-$total = 0;
-$total_item = 0;
-
-foreach ($_SESSION['keranjang'] as $item) {
-    $total += $item['subtotal'];
-    $total_item += $item['qty'];
-}
+// Asumsi ID kasir yang sedang login
+$id_user = isset($_SESSION['id_user']) ? $_SESSION['id_user'] : 1; 
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-    <title>Transaksi Penjualan</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Transaksi Penjualan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/transaksi.css">
+    
 </head>
-
 <body>
 
-   <?php include "../templates/sidebar.php" ?>
+    <?php include '../templates/sidebar.php'; ?>
 
     <div class="main-content">
-
-        <h3 class="fw-bold">Transaksi Penjualan</h3>
-
-        <p class="text-muted">
-            Selamat datang di sistem informasi warung kelontong
-        </p>
-
-        <div class="row g-4">
-
-            <!-- KIRI -->
-
-            <div class="col-lg-7">
-
-                <div class="card card-pos mb-4">
-
-                    <div class="card-body p-4">
-
-                        <div class="d-flex gap-3 align-items-center mb-4">
-                            <div class="step-badge">1</div>
-                            <h5 class="mb-0">Input Barang</h5>
-                        </div>
-
-                        <form action="tambah_keranjang.php" method="POST">
-
-                            <label class="fw-semibold mb-2">
-                                Cari Barang
-                            </label>
-
-                            <input type="text"
-                                id="keyword"
-                                class="form-control mb-3"
-                                placeholder="Cari nama produk">
-
-                            <select name="id_barang"
-                                id="id_barang"
-                                class="form-select mb-3"
-                                required>
-                            </select>
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-
-                                    <label>Jumlah (Qty)</label>
-
-                                    <input type="number"
-                                        name="qty"
-                                        class="form-control"
-                                        value="1"
-                                        min="1"
-                                        required>
-
-                                </div>
-
-                                <div class="col-md-8 d-flex align-items-end">
-
-                                    <button class="btn btn-main w-100">
-
-                                        <i class="bi bi-cart-plus"></i>
-
-                                        Tambah ke Keranjang
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-                <div class="card card-pos">
-
-                    <div class="card-body p-4">
-
-                        <div class="d-flex gap-3 align-items-center mb-4">
-                            <div class="step-badge">2</div>
-                            <h5 class="mb-0">Daftar Belanjaan</h5>
-                        </div>
-
-                        <div class="table-responsive">
-
-                            <table class="table align-middle">
-
-                                <thead>
-
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Barang</th>
-                                        <th>Qty</th>
-                                        <th>Harga</th>
-                                        <th>Subtotal</th>
-                                        <th>Aksi</th>
-                                    </tr>
-
-                                </thead>
-
-                                <tbody>
-
-                                    <?php if(empty($_SESSION['keranjang'])) : ?>
-
-                                        <tr>
-                                            <td colspan="6" class="text-center">
-                                                Keranjang kosong
-                                            </td>
-                                        </tr>
-
-                                    <?php endif; ?>
-
-                                    <?php foreach($_SESSION['keranjang'] as $key => $item) : ?>
-
-                                        <tr>
-
-                                            <td><?= $key + 1 ?></td>
-
-                                            <td><?= $item['nama_barang'] ?></td>
-
-                                            <td>
-
-                                                <form action="update_keranjang.php" method="POST" class="d-flex gap-2">
-
-                                                    <input type="hidden"
-                                                        name="index"
-                                                        value="<?= $key ?>">
-
-                                                    <input type="number"
-                                                        name="qty"
-                                                        class="form-control qty-input"
-                                                        value="<?= $item['qty'] ?>"
-                                                        min="1">
-
-                                                    <button class="btn btn-warning btn-sm">
-
-                                                        <i class="bi bi-arrow-repeat"></i>
-
-                                                    </button>
-
-                                                </form>
-
-                                            </td>
-
-                                            <td>
-                                                Rp <?= number_format($item['harga']) ?>
-                                            </td>
-
-                                            <td>
-                                                Rp <?= number_format($item['subtotal']) ?>
-                                            </td>
-
-                                            <td>
-
-                                                <a href="hapus_keranjang.php?index=<?= $key ?>"
-                                                    class="btn btn-danger btn-sm">
-
-                                                    <i class="bi bi-trash"></i>
-
-                                                </a>
-
-                                            </td>
-
-                                        </tr>
-
-                                    <?php endforeach; ?>
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                        <div class="alert alert-light border mb-0">
-
-                            Total Item:
-
-                            <strong><?= $total_item ?> Barang</strong>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- KANAN -->
-
-            <div class="col-lg-5">
-
-                <div class="card card-pos">
-
-                    <div class="card-body p-4">
-
-                        <div class="d-flex gap-3 align-items-center mb-4">
-                            <div class="step-badge">3</div>
-                            <h5 class="mb-0">Input Pelanggan</h5>
-                        </div>
-
-                        <form action="simpan.php" method="POST">
-
-                            <label class="fw-semibold mb-2">
-                                Pilih Pelanggan
-                            </label>
-
-                            <select name="id_pelanggan"
-                                id="id_pelanggan"
-                                class="form-select mb-3"
-                                required>
-
-                                <?php while($p = mysqli_fetch_assoc($pelanggan)) : ?>
-
-                                    <option
-                                        value="<?= $p['id_pelanggan'] ?>"
-                                        data-poin="<?= $p['poin_member'] ?>">
-
-                                        <?= $p['nama_pelanggan'] ?>
-
-                                        (<?= $p['poin_member'] ?> poin)
-
-                                    </option>
-
-                                <?php endwhile; ?>
-
-                            </select>
-
-                            <div class="card mb-3">
-
-                                <div class="card-body">
-
-                                    <div class="row mb-2">
-
-                                        <div class="col-6">
-                                            Poin Saat Ini
-                                        </div>
-
-                                        <div class="col-6">
-                                            : <span id="poin">0</span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="alert alert-primary">
-
-                                Minimal transaksi Rp100.000 mendapat +10 poin
-
-                            </div>
-
-                            <div class="total-box mb-3">
-
-                                <small>TOTAL BELANJA</small>
-
-                                <h2>
-                                    Rp <?= number_format($total) ?>
-                                </h2>
-
-                            </div>
-
-                            <input type="hidden"
-                                id="total"
-                                value="<?= $total ?>">
-
-                            <div class="mb-3">
-
-                                <label>Pembayaran</label>
-
-                                <input type="number"
-                                    name="bayar"
-                                    id="bayar"
-                                    class="form-control"
-                                    required>
-
-                            </div>
-
-                            <div class="total-box mb-4">
-
-                                <small>Kembalian</small>
-
-                                <h2 id="kembalian">
-
-                                    Rp 0
-
-                                </h2>
-
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-6">
-
-                                    <button
-                                        type="submit"
-                                        name="aksi"
-                                        value="cetak"
-                                        class="btn btn-main w-100">
-
-                                        <i class="bi bi-printer"></i>
-
-                                        Simpan & Cetak
-
-                                    </button>
-
-                                </div>
-
-                                <div class="col-6">
-
-                                    <button
-                                        type="submit"
-                                        name="aksi"
-                                        value="simpan"
-                                        class="btn btn-outline-secondary w-100">
-
-                                        <i class="bi bi-floppy"></i>
-
-                                        Simpan
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        
+        <div class="page-header">
+            <h2>Transaksi Penjualan</h2>
         </div>
 
-    </div>
+        <main class="transaction-container">
+            
+            <div class="left-column">
+                <div class="card">
+                    <div class="card-header"><span class="badge">1</span> Input Barang</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Cari barang</label>
+                            <input type="text" id="keyword_barang" class="form-control" placeholder="Ketik nama produk atau scan barcode..." onkeyup="cariBarang()">
+                        </div>
+                        <div id="hasil_pencarian_barang"></div>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <div class="card-header"><span class="badge">2</span> Daftar Belanjaan</div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nama Barang</th>
+                                        <th>Harga</th>
+                                        <th>Qty</th>
+                                        <th>Sub Total</th>
+                                        <th>Hapus</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart_body">
+                                    <tr><td colspan="5" style="text-align:center; color:#999;">Keranjang masih kosong</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="card">
+                    <div class="card-header"><span class="badge">3</span> Data Pelanggan</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Cari Pelanggan / No. HP</label>
+                            <select id="pilih_pelanggan" class="form-control" onchange="pilihMember()">
+                                <option value="">-- Pelanggan Umum (Bukan Member) --</option>
+                                <?php while($p = mysqli_fetch_assoc($result_pelanggan)): ?>
+                                    <option value="<?= $p['id_pelanggan'] ?>" 
+                                            data-nama="<?= htmlspecialchars($p['nama_pelanggan']) ?>" 
+                                            data-poin="<?= $p['poin_member'] ?>">
+                                        <?= $p['nama_pelanggan'] ?> - (<?= $p['no_hp'] ?>)
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+
+                        <div id="info_pelanggan" class="info-box d-flex justify-between align-center" style="display: none !important;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><span class="badge">4</span> Pembayaran</div>
+                    <div class="card-body">
+                        <label>TOTAL BELANJA</label>
+                        <div class="payment-box">
+                            <div class="total-text">Rp <span id="label_total">0</span></div>
+                            <div id="label_diskon" style="color: red; font-size: 12px; margin-top:5px; display: none;">
+                                *Termasuk Potongan Diskon 10%
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Uang Pembayaran</label>
+                            <input type="number" id="uang_bayar" class="form-control" placeholder="Masukkan nominal uang..." onkeyup="hitungKembalian()">
+                        </div>
+
+                        <label>Kembalian</label>
+                        <div class="payment-box" style="background-color: #f0f0f0;">
+                            <div class="total-text" style="color: var(--text-main);">Rp <span id="label_kembalian">0</span></div>
+                        </div>
+
+                        <div class="d-flex gap-10" style="margin-top: 20px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="simpanTransaksi(true)">🖨️ Simpan & Cetak</button>
+                            <button class="btn btn-outline" style="flex: 1;" onclick="simpanTransaksi(false)">💾 Simpan</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </main>
+        
+        
+        
+    </div> 
+    <footer class="footer" style="margin-left: 270px;">
+        <?php include '../templates/footer.php'; ?>
+    
     <script>
+        // State Global
+        let cart = [];
+        let pelangganAktif = null;
+        let gunakanPoin = false;
+        let grandTotal = 0;
+        let totalDiskon = 0;
 
-        // LOAD BARANG
+        // FORMAT RUPIAH
+        const formatRupiah = (angka) => {
+            return new Intl.NumberFormat('id-ID').format(angka);
+        }
 
-        function loadBarang(keyword = '') {
+        // ================= BARANG & KERANJANG =================
+        async function cariBarang() {
+            const keyword = document.getElementById('keyword_barang').value;
+            const container = document.getElementById('hasil_pencarian_barang');
+            
+            if(keyword.length < 2) {
+                container.innerHTML = ''; return;
+            }
 
-            fetch('cari_barang.php?keyword=' + keyword)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('id_barang').innerHTML = data;
+            const response = await fetch(`cari_barang.php?q=${keyword}`);
+            const data = await response.json();
+            
+            let html = '';
+            data.forEach(b => {
+                html += `
+                <div class="search-result-item">
+                    <div>
+                        <strong>${b.nama_barang}</strong><br>
+                        <span style="font-size:12px; color:#666;">Stok: ${b.jumlah_stok} | Rp ${formatRupiah(b.harga_jual)}</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="tambahKeKeranjang(${b.id_barang}, '${b.nama_barang}', ${b.harga_jual}, ${b.jumlah_stok})" style="padding:5px 15px;">+</button>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function tambahKeKeranjang(id, nama, harga, stokMax) {
+            let exist = cart.find(item => item.id_barang === id);
+            if (exist) {
+                if(exist.qty < stokMax) exist.qty++;
+                else alert("Stok barang tidak mencukupi!");
+            } else {
+                if(stokMax > 0) cart.push({id_barang: id, nama: nama, harga: harga, qty: 1, stokMax: stokMax});
+                else alert("Stok habis!");
+            }
+            document.getElementById('keyword_barang').value = '';
+            document.getElementById('hasil_pencarian_barang').innerHTML = '';
+            renderCart();
+        }
+
+        function kurangiQty(index) {
+            if(cart[index].qty > 1) {
+                cart[index].qty--;
+                renderCart();
+            } else {
+                hapusItem(index);
+            }
+        }
+
+        function tambahQty(index) {
+            if(cart[index].qty < cart[index].stokMax) {
+                cart[index].qty++;
+                renderCart();
+            } else {
+                alert("Stok maksimal tercapai!");
+            }
+        }
+
+        function hapusItem(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            let html = '';
+            let subtotalKeseluruhan = 0;
+
+            if(cart.length === 0) {
+                html = `<tr><td colspan="5" style="text-align:center; color:#999;">Keranjang masih kosong</td></tr>`;
+            } else {
+                cart.forEach((item, index) => {
+                    let subtotal = item.qty * item.harga;
+                    subtotalKeseluruhan += subtotal;
+                    html += `
+                    <tr>
+                        <td>${item.nama}</td>
+                        <td>Rp ${formatRupiah(item.harga)}</td>
+                        <td>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="kurangiQty(${index})">-</button>
+                                <input type="text" class="qty-input" value="${item.qty}" readonly>
+                                <button class="qty-btn" onclick="tambahQty(${index})">+</button>
+                            </div>
+                        </td>
+                        <td style="font-weight:bold;">Rp ${formatRupiah(subtotal)}</td>
+                        <td><button class="btn btn-danger" onclick="hapusItem(${index})">🗑️</button></td>
+                    </tr>`;
                 });
+            }
 
+            document.getElementById('cart_body').innerHTML = html;
+
+            // Hitung Diskon
+            totalDiskon = 0;
+            if(gunakanPoin && pelangganAktif && pelangganAktif.poin_member >= 100) {
+                totalDiskon = subtotalKeseluruhan * 0.10; // Diskon 10%
+                document.getElementById('label_diskon').style.display = 'block';
+            } else {
+                document.getElementById('label_diskon').style.display = 'none';
+            }
+
+            grandTotal = subtotalKeseluruhan - totalDiskon;
+            document.getElementById('label_total').innerText = formatRupiah(grandTotal);
+            hitungKembalian();
         }
 
-        loadBarang();
+        // ================= PELANGGAN & POIN (VERSI DROPDOWN) =================
+        function pilihMember() {
+            const select = document.getElementById('pilih_pelanggan');
+            const infoDiv = document.getElementById('info_pelanggan');
+            
+            // Jika kasir memilih "Pelanggan Umum" (value kosong)
+            if (select.value === "") {
+                infoDiv.style.setProperty('display', 'none', 'important');
+                pelangganAktif = null;
+                gunakanPoin = false;
+                renderCart();
+                return;
+            }
 
-        document.getElementById('keyword')
-            .addEventListener('keyup', function() {
+            // Ambil data dari option yang sedang dipilih
+            const selectedOption = select.options[select.selectedIndex];
+            const id = selectedOption.value;
+            const nama = selectedOption.getAttribute('data-nama');
+            const poin = parseInt(selectedOption.getAttribute('data-poin'));
 
-                loadBarang(this.value);
+            // Set state pelanggan aktif
+            pelangganAktif = { id_pelanggan: id, nama_pelanggan: nama, poin_member: poin };
+            
+            let checkboxTukar = '';
+            if (poin >= 100) {
+                checkboxTukar = `
+                <div style="background: #cfdacb; padding: 10px; border-radius: 5px; font-size: 12px; text-align:right;">
+                    <label style="cursor: pointer; font-weight:bold;">
+                        <input type="checkbox" onchange="toggleDiskon(this)"> Tukar 100 Poin
+                    </label>
+                    <br><span style="font-size: 10px;">(Diskon 10%)</span>
+                </div>`;
+            } else {
+                checkboxTukar = `<div style="font-size:11px; color:#888;">Poin tidak cukup untuk diskon</div>`;
+                gunakanPoin = false; // Reset otomatis jika ganti member yg poinnya kurang
+            }
 
-            });
-
-        // POIN PELANGGAN
-
-        const pelanggan = document.getElementById('id_pelanggan');
-
-        function tampilPoin() {
-
-            let poin = pelanggan.options[pelanggan.selectedIndex]
-                .dataset.poin;
-
-            document.getElementById('poin').innerText = poin;
-
+            // Tampilkan info box
+            infoDiv.innerHTML = `
+                <div style="font-size: 13px; line-height: 1.6;">
+                    <strong>Nama:</strong> ${nama}<br>
+                    <strong>Poin Anda:</strong> <span style="color:var(--primary-green); font-weight:bold;">${poin} Poin</span>
+                </div>
+                ${checkboxTukar}
+            `;
+            infoDiv.style.setProperty('display', 'flex', 'important');
+            
+            // Update kalkulasi total
+            renderCart();
         }
 
-        tampilPoin();
+        function toggleDiskon(checkbox) {
+            gunakanPoin = checkbox.checked;
+            renderCart();
+        }
 
-        pelanggan.addEventListener('change', tampilPoin);
+        // ================= PEMBAYARAN =================
+        function hitungKembalian() {
+            let bayar = parseInt(document.getElementById('uang_bayar').value) || 0;
+            let kembalian = bayar - grandTotal;
+            let label = document.getElementById('label_kembalian');
+            
+            if(kembalian < 0) {
+                label.innerText = "Uang Kurang!";
+                label.style.color = "red";
+            } else {
+                label.innerText = formatRupiah(kembalian);
+                label.style.color = "var(--text-main)";
+            }
+        }
 
-        // KEMBALIAN
+        async function simpanTransaksi(cetak) {
+            if(cart.length === 0) return alert("Keranjang belanja kosong!");
+            let bayar = parseInt(document.getElementById('uang_bayar').value) || 0;
+            if(bayar < grandTotal) return alert("Uang pembayaran kurang dari total belanja!");
 
-        document.getElementById('bayar')
-            .addEventListener('keyup', function() {
+            const payload = {
+                id_user: <?= $id_user ?>,
+                id_pelanggan: pelangganAktif ? pelangganAktif.id_pelanggan : null,
+                total_harga: grandTotal + totalDiskon,
+                diskon: totalDiskon,
+                bayar: bayar,
+                kembalian: bayar - grandTotal,
+                tukar_poin: gunakanPoin,
+                items: cart
+            };
 
-                let bayar = parseInt(this.value) || 0;
-
-                let total = parseInt(
-                    document.getElementById('total').value
-                );
-
-                let kembali = bayar - total;
-
-                if (kembali < 0) kembali = 0;
-
-                document.getElementById('kembalian')
-                    .innerText = 'Rp ' + kembali.toLocaleString('id-ID');
-
-            });
-
+            try {
+                const response = await fetch('proses_transaksi.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if(result.status === 'success') {
+                    alert("Transaksi Berhasil Disimpan!");
+                    if(cetak) {
+                        // Arahkan ke halaman cetak struk (buka tab baru)
+                        window.open(`cetak_struk.php?id=${result.id_transaksi}`, '_blank');
+                    }
+                    window.location.reload(); // Reset aplikasi kasir
+                } else {
+                    alert("Gagal: " + result.message);
+                }
+            } catch (error) {
+                alert("Terjadi kesalahan jaringan atau server.");
+                console.error(error);
+            }
+        }
     </script>
-
 </body>
-
 </html>
