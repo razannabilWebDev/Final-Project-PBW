@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2026 at 10:16 AM
+-- Generation Time: Jun 15, 2026 at 07:05 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -117,7 +117,12 @@ INSERT INTO `detail_transaksi` (`id_detail`, `id_transaksi`, `id_barang`, `jumla
 (7, 7, 7, 4, 6000, 24000),
 (8, 8, 8, 4, 13000, 52000),
 (9, 9, 9, 5, 10000, 50000),
-(10, 10, 10, 10, 7500, 75000);
+(10, 10, 10, 10, 7500, 75000),
+(11, 11, 1, 2, 3500, 7000),
+(12, 11, 4, 3, 18000, 54000),
+(13, 12, 1, 10, 3500, 35000),
+(14, 13, 1, 5, 3500, 17500),
+(15, 14, 1, 3, 3500, 10500);
 
 -- --------------------------------------------------------
 
@@ -138,7 +143,7 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `alamat`, `no_hp`, `poin_member`) VALUES
-(1, 'Andi Saputra', 'Bandung', '081111111111', 10),
+(1, 'Andi Saputra', 'Bandung', '081111111111', 13),
 (2, 'Budi Santoso', 'Jakarta', '081111111112', 20),
 (3, 'Citra Lestari', 'Bekasi', '081111111113', 15),
 (4, 'Dewi Anggraini', 'Bogor', '081111111114', 5),
@@ -147,7 +152,8 @@ INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `alamat`, `no_hp`, `p
 (7, 'Gina Marlina', 'Garut', '081111111117', 18),
 (8, 'Hendra Wijaya', 'Tasikmalaya', '081111111118', 22),
 (9, 'Intan Permata', 'Cirebon', '081111111119', 8),
-(10, 'Joko Susilo', 'Sukabumi', '081111111120', 16);
+(10, 'Joko Susilo', 'Sukabumi', '081111111120', 23),
+(12, 'Pelanggan Umum', '-', '-', 1);
 
 -- --------------------------------------------------------
 
@@ -199,10 +205,10 @@ CREATE TABLE `stok` (
 --
 
 INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `terakhir_diupdate`) VALUES
-(1, 1, 100, 10, '2026-05-19 19:10:39'),
+(1, 1, 80, 10, '2026-05-19 19:10:39'),
 (2, 2, 50, 5, '2026-05-19 19:10:39'),
 (3, 3, 80, 10, '2026-05-19 19:10:39'),
-(4, 4, 70, 10, '2026-05-19 19:10:39'),
+(4, 4, 67, 10, '2026-05-19 19:10:39'),
 (5, 5, 90, 15, '2026-05-19 19:10:39'),
 (6, 6, 120, 20, '2026-05-19 19:10:39'),
 (7, 7, 60, 10, '2026-05-19 19:10:39'),
@@ -254,6 +260,9 @@ CREATE TABLE `transaksi` (
   `id_pelanggan` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
   `total_harga` int(11) DEFAULT NULL,
+  `diskon` int(11) DEFAULT 0,
+  `total_bayar` int(11) DEFAULT 0,
+  `poin_didapat` int(11) DEFAULT 0,
   `bayar` int(11) DEFAULT NULL,
   `kembalian` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -262,17 +271,21 @@ CREATE TABLE `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `tanggal`, `id_pelanggan`, `id_user`, `total_harga`, `bayar`, `kembalian`) VALUES
-(1, '2026-05-18 19:10:39', 1, 3, 35000, 50000, 15000),
-(2, '2026-05-19 19:10:39', 2, 4, 70000, 100000, 30000),
-(3, '2026-05-17 19:10:39', 3, 5, 45000, 50000, 5000),
-(4, '2026-05-16 19:10:39', 4, 6, 54000, 60000, 6000),
-(5, '2026-05-19 19:10:39', 5, 7, 30000, 50000, 20000),
-(6, '2026-05-19 19:10:39', 6, 8, 50000, 100000, 50000),
-(7, '2026-05-19 19:10:39', 7, 9, 24000, 50000, 26000),
-(8, '2026-05-19 19:10:39', 8, 10, 52000, 100000, 48000),
-(9, '2026-05-19 19:10:39', 9, 3, 50000, 100000, 50000),
-(10, '2026-05-19 19:10:39', 10, 4, 75000, 100000, 25000);
+INSERT INTO `transaksi` (`id_transaksi`, `tanggal`, `id_pelanggan`, `id_user`, `total_harga`, `diskon`, `total_bayar`, `poin_didapat`, `bayar`, `kembalian`) VALUES
+(1, '2026-05-18 19:10:39', 1, 3, 35000, 0, 0, 0, 50000, 15000),
+(2, '2026-05-19 19:10:39', 2, 4, 70000, 0, 0, 0, 100000, 30000),
+(3, '2026-05-17 19:10:39', 3, 5, 45000, 0, 0, 0, 50000, 5000),
+(4, '2026-05-16 19:10:39', 4, 6, 54000, 0, 0, 0, 60000, 6000),
+(5, '2026-05-19 19:10:39', 5, 7, 30000, 0, 0, 0, 50000, 20000),
+(6, '2026-05-19 19:10:39', 6, 8, 50000, 0, 0, 0, 100000, 50000),
+(7, '2026-05-19 19:10:39', 7, 9, 24000, 0, 0, 0, 50000, 26000),
+(8, '2026-05-19 19:10:39', 8, 10, 52000, 0, 0, 0, 100000, 48000),
+(9, '2026-05-19 19:10:39', 9, 3, 50000, 0, 0, 0, 100000, 50000),
+(10, '2026-05-19 19:10:39', 10, 4, 75000, 0, 0, 0, 100000, 25000),
+(11, NULL, 10, 1, 61000, 0, 0, 6, 100000, 39000),
+(12, NULL, 1, 1, 35000, 0, 0, 3, 50000, 15000),
+(13, NULL, 12, 1, 17500, 0, 0, 1, 20000, 2500),
+(14, NULL, 10, 1, 10500, 0, 0, 1, 15000, 4500);
 
 -- --------------------------------------------------------
 
@@ -392,13 +405,13 @@ ALTER TABLE `detail_pembelian`
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `pembelian`
@@ -422,7 +435,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
