@@ -256,7 +256,7 @@ http://localhost/groceria
 
 * Razan Nabil Annadif
 * Hanna Fadillah Septiana
-* Arcya Apricia Purnomo
+* Arsya Apricia Purnomo
 * Muhammad Fikri Maulana
 * Mustikasari Yahya
 
