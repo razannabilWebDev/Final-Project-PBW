@@ -281,13 +281,14 @@ body {
 
 /* Footer */
 .custom-footer {
-             background: white;
+            background: white;
             padding: 20px 30px;
             border-top: 1px solid #e9ecef;
+         
         }
 
         .footer-text {
-            color: #7d8178;
+            color: #7d8178; 
         }
 
         .footer-links a {
