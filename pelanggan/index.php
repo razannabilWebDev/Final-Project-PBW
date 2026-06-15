@@ -12,14 +12,12 @@ $koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
 
 $search_query = "";
 
-// 2. Periksa apakah parameter 'cari' ada di URL dan tidak kosong
 if (isset($_GET['cari']) && !empty($_GET['cari'])) {
     $cari = mysqli_real_escape_string($koneksi, $_GET['cari']);
-    // Filter database berdasarkan nama atau nomor handphone
+
     $search_query = " WHERE nama_pelanggan LIKE '%$cari%' OR no_hp LIKE '%$cari%'";
 }
 
-// 3. Gabungkan kueri dasar dengan filter pencarian
 $query = "SELECT * FROM pelanggan" . $search_query;
 $result = mysqli_query($koneksi, $query);
 ?>
