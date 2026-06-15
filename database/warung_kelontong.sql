@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2026 at 07:05 PM
+-- Generation Time: Jun 15, 2026 at 08:30 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -122,7 +122,10 @@ INSERT INTO `detail_transaksi` (`id_detail`, `id_transaksi`, `id_barang`, `jumla
 (12, 11, 4, 3, 18000, 54000),
 (13, 12, 1, 10, 3500, 35000),
 (14, 13, 1, 5, 3500, 17500),
-(15, 14, 1, 3, 3500, 10500);
+(15, 14, 1, 3, 3500, 10500),
+(16, 15, 2, 1, 70000, 70000),
+(17, 17, 1, 3, 3500, 10500),
+(18, 18, 1, 7, 3500, 24500);
 
 -- --------------------------------------------------------
 
@@ -205,8 +208,8 @@ CREATE TABLE `stok` (
 --
 
 INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `terakhir_diupdate`) VALUES
-(1, 1, 80, 10, '2026-05-19 19:10:39'),
-(2, 2, 50, 5, '2026-05-19 19:10:39'),
+(1, 1, 70, 10, '2026-05-19 19:10:39'),
+(2, 2, 49, 5, '2026-05-19 19:10:39'),
 (3, 3, 80, 10, '2026-05-19 19:10:39'),
 (4, 4, 67, 10, '2026-05-19 19:10:39'),
 (5, 5, 90, 15, '2026-05-19 19:10:39'),
@@ -256,7 +259,7 @@ INSERT INTO `supplier` (`id_supplier`, `nama_supplier`, `alamat`, `no_telepon`, 
 
 CREATE TABLE `transaksi` (
   `id_transaksi` int(11) NOT NULL,
-  `tanggal` datetime DEFAULT NULL,
+  `tanggal` datetime DEFAULT current_timestamp(),
   `id_pelanggan` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
   `total_harga` int(11) DEFAULT NULL,
@@ -285,7 +288,10 @@ INSERT INTO `transaksi` (`id_transaksi`, `tanggal`, `id_pelanggan`, `id_user`, `
 (11, NULL, 10, 1, 61000, 0, 0, 6, 100000, 39000),
 (12, NULL, 1, 1, 35000, 0, 0, 3, 50000, 15000),
 (13, NULL, 12, 1, 17500, 0, 0, 1, 20000, 2500),
-(14, NULL, 10, 1, 10500, 0, 0, 1, 15000, 4500);
+(14, NULL, 10, 1, 10500, 0, 0, 1, 15000, 4500),
+(15, NULL, NULL, 3, 70000, 0, 0, 7, 100000, 30000),
+(17, '2026-06-15 20:15:22', NULL, 3, 10500, 0, 0, 1, 30000, 19500),
+(18, '2026-06-16 01:18:37', NULL, 3, 24500, 0, 0, 2, 30000, 5500);
 
 -- --------------------------------------------------------
 
@@ -405,7 +411,7 @@ ALTER TABLE `detail_pembelian`
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
@@ -435,7 +441,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user`
