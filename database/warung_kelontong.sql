@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2026 at 08:30 PM
+-- Generation Time: Jun 16, 2026 at 11:42 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -54,7 +54,8 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `kategori`, `harga_beli`, `har
 (9, 'Pasta Gigi', 'Kebutuhan', 7000, 10000, 'pcs', '2026-05-09', 'aktif'),
 (10, 'Susu UHT', 'Minuman', 5000, 7500, 'kotak', '2026-05-10', 'aktif'),
 (11, 'Momogi Keju', 'Makanan', 20000, 25000, 'kotak', '2026-06-13', 'aktif'),
-(12, 'Momogi Cokelat', 'Makanan', 20000, 25000, 'kotak', '2026-06-13', 'aktif');
+(12, 'Momogi Cokelat', 'Makanan', 20000, 25000, 'kotak', '2026-06-13', 'aktif'),
+(13, 'Indomie Ayam', 'Makanan', 2500, 3500, 'pcs', '2026-06-16', 'aktif');
 
 -- --------------------------------------------------------
 
@@ -219,7 +220,8 @@ INSERT INTO `stok` (`id_stok`, `id_barang`, `jumlah_stok`, `stok_minimum`, `tera
 (9, 9, 55, 5, '2026-05-19 19:10:39'),
 (10, 10, 75, 10, '2026-05-19 19:10:39'),
 (11, 11, 10, 5, '2026-06-13 14:09:51'),
-(12, 12, 20, 5, '2026-06-13 17:33:43');
+(12, 12, 20, 5, '2026-06-13 17:33:43'),
+(13, 13, 0, 5, '2026-06-16 16:29:25');
 
 -- --------------------------------------------------------
 
@@ -339,16 +341,16 @@ ALTER TABLE `barang`
 --
 ALTER TABLE `detail_pembelian`
   ADD PRIMARY KEY (`id_detail_pembelian`),
-  ADD KEY `id_pembelian` (`id_pembelian`),
-  ADD KEY `id_barang` (`id_barang`);
+  ADD KEY `detail_pembelian_ibfk_1` (`id_pembelian`),
+  ADD KEY `detail_pembelian_ibfk_2` (`id_barang`);
 
 --
 -- Indexes for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD PRIMARY KEY (`id_detail`),
-  ADD KEY `id_transaksi` (`id_transaksi`),
-  ADD KEY `id_barang` (`id_barang`);
+  ADD KEY `detail_transaksi_ibfk_1` (`id_transaksi`),
+  ADD KEY `detail_transaksi_ibfk_2` (`id_barang`);
 
 --
 -- Indexes for table `pelanggan`
@@ -361,15 +363,15 @@ ALTER TABLE `pelanggan`
 --
 ALTER TABLE `pembelian`
   ADD PRIMARY KEY (`id_pembelian`),
-  ADD KEY `id_supplier` (`id_supplier`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `pembelian_ibfk_1` (`id_supplier`),
+  ADD KEY `pembelian_ibfk_2` (`id_user`);
 
 --
 -- Indexes for table `stok`
 --
 ALTER TABLE `stok`
   ADD PRIMARY KEY (`id_stok`),
-  ADD KEY `id_barang` (`id_barang`);
+  ADD KEY `stok_ibfk_1` (`id_barang`);
 
 --
 -- Indexes for table `supplier`
@@ -382,8 +384,8 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_transaksi`),
-  ADD KEY `id_pelanggan` (`id_pelanggan`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `transaksi_ibfk_1` (`id_pelanggan`),
+  ADD KEY `transaksi_ibfk_2` (`id_user`);
 
 --
 -- Indexes for table `user`
@@ -399,7 +401,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `detail_pembelian`
@@ -429,7 +431,7 @@ ALTER TABLE `pembelian`
 -- AUTO_INCREMENT for table `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -457,35 +459,35 @@ ALTER TABLE `user`
 -- Constraints for table `detail_pembelian`
 --
 ALTER TABLE `detail_pembelian`
-  ADD CONSTRAINT `detail_pembelian_ibfk_1` FOREIGN KEY (`id_pembelian`) REFERENCES `pembelian` (`id_pembelian`),
-  ADD CONSTRAINT `detail_pembelian_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`);
+  ADD CONSTRAINT `detail_pembelian_ibfk_1` FOREIGN KEY (`id_pembelian`) REFERENCES `pembelian` (`id_pembelian`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_pembelian_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`),
-  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`);
+  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  ADD CONSTRAINT `pembelian_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`),
-  ADD CONSTRAINT `pembelian_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `pembelian_ibfk_1` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pembelian_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `stok`
 --
 ALTER TABLE `stok`
-  ADD CONSTRAINT `stok_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`);
+  ADD CONSTRAINT `stok_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`),
-  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
