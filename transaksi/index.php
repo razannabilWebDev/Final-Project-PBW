@@ -2,7 +2,8 @@
 session_start();
 // Pastikan file koneksi ada sesuai struktur foldermu
 require_once '../config/koneksi.php';
-
+require_once '../config/session.php';
+cek_login();
 // Ambil semua data pelanggan untuk diisi ke dropdown
 $query_pelanggan = "SELECT id_pelanggan, nama_pelanggan, no_hp, poin_member FROM pelanggan ORDER BY nama_pelanggan ASC";
 $result_pelanggan = mysqli_query($conn, $query_pelanggan);
