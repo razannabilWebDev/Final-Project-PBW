@@ -1,14 +1,13 @@
 <?php
 session_start();
+require_once '../config/koneksi.php';
+require_once '../config/session.php';
+cek_login();
 
-if (!isset($_SESSION['role'])) {
-    header("Location: ../login.php");
-    exit;
-}
 
 $role_sekarang = $_SESSION['role']; 
-
-$koneksi = mysqli_connect("localhost", "root", "", "warung_kelontong");
+    
+$koneksi = $conn; // Gunakan koneksi yang sudah dibuat di koneksi.php   
 ?>
 
 <!DOCTYPE html>
